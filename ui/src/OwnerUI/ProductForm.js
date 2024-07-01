@@ -1,8 +1,7 @@
-import React, { useState, useMemo } from 'react';
-import {io} from 'socket.io-client';
+import React, { useState } from 'react';
+const {Uploader} = require("../controllers/Uploader")
 
 const ProductForm = () => {
-  const socket = useMemo(()=>io("http://localhost:5000"), []);  
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
@@ -11,11 +10,18 @@ const ProductForm = () => {
   const [colors, setColors] = useState('');
   const [listImages, setListImages] = useState([[]]);
 
-
-  const handleImageChange = (e, index) => {
+  const handleImageChange = async (e, index) => {
+    // console.log("path: ",e.target.files[0]);
     const files = Array.from(e.target.files);
+    let formImages = [];
+    files.forEach(file => {
+      const formData = new FormData();
+      formData.append('image', file);
+      formImages.push(formData);
+    });
+    console.log(formImages)
     const updatedImages = [...listImages];
-    updatedImages[index] = files;
+    updatedImages[index] = formImages;
     setListImages(updatedImages);
   };
 
@@ -37,9 +43,13 @@ const ProductForm = () => {
     };
 
     console.log('Form Data:', formData);
-    socket.emit("data", formData);
-
-    // Send the formData to the server using your preferred method (e.g., fetch or axios)
+    listImages.map((item, index)=>{
+      return item.map(async (image, i) => {
+        // console.log(image);
+        const res = await Uploader(image);
+        console.log("res", res);
+      })
+    })
   };
 
   return (

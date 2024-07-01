@@ -1,5 +1,5 @@
 import React from 'react';
-import { useCart } from './CartContext';
+import { useCart } from '../controllers/CartContext';
 
 const CartPage = () => {
   const { cart, removeFromCart, clearCart, totalPrice } = useCart();

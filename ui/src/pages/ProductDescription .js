@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import mug from "../images/mug.jpg";
-import keychain from "../images/keychain.jpg";
-import tshirt from "../images/T-shirt.jpg";
-import hoodie from "../images/hoodie.jpg";
+// import mug from "../images/mug.jpg";
+// import keychain from "../images/keychain.jpg";
+// import tshirt from "../images/T-shirt.jpg";
+// import hoodie from "../images/hoodie.jpg";
 import { useLocation } from "react-router-dom";
-import { useCart } from "./CartContext";
+import { useCart } from "../controllers/CartContext";
 
 const ProductDescription = () => {
   const { addToCart } = useCart();

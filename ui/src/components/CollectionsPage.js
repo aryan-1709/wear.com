@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useCart } from "../pages/CartContext";
-import { ToastContainer, toast } from "react-toastify";
+import { useCart } from "../controllers/CartContext";
 import "react-toastify/dist/ReactToastify.css";
 import mug from "../images/mug.jpg";
 import keychain from "../images/keychain.jpg";

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {useNavigate} from "react-router-dom";
 import mug from '../images/mug.jpg'
-import keychain from '../images/keychain.jpg'
+// import keychain from '../images/keychain.jpg'
 import tshirt from '../images/T-shirt.jpg'
 import hoodie from '../images/hoodie.jpg'
 
@@ -50,7 +50,7 @@ const RecommendedProducts = () => {
   }, []);
 
   const handleOnclick = (msg) =>{
-    navigate('\collections', {state: {msg: msg}});
+    navigate('/collections', {state: {msg: msg}});
   }
 
   return (
