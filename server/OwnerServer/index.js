@@ -1,75 +1,34 @@
-const express = require('express');
-const multer = require('multer');
-const uploadImage = require('./uploadImage');
-const Product = require('./productModel');
-
+const express = require("express");
+const mongoose = require('mongoose');
+const cors = require('cors');
+const dotenv = require('dotenv');
+dotenv.config();
 const app = express();
-const upload = multer({ dest: 'uploads/' });
+const http = require("http");
+const bodyParser = require("body-parser")
+const uploadRoute  = require("./Routes/routeUpload")
 
-app.post('/upload', upload.single('file'), async (req, res) => {
+app.use(cors());
+const server = http.createServer(app);
+
+app.use(bodyParser.json());
+
+server.listen(process.env.PORT, () => {
+    console.log(`server started at http://localhost:${process.env.PORT}`);
+});
+(async function connectToMongoDB() {
   try {
-    const result = await uploadImage(req.file.path);
-    res.json({ url: result.Location });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to upload image' });
+    await mongoose.connect(process.env.MONGO_URL).then((results) => console.log("connected"));
+  } catch (error) {
+    console.error('Error connecting to MongoDB:', error.message);
+    process.exit(1); 
   }
-});
+})();
 
-app.post('/products', async (req, res) => {
-  try {
-    const product = new Product(req.body);
-    await product.save();
-    res.status(201).json(product);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to save product' });
-  }
-});
+app.get("/", (req, res)=>{
+  res.send("Hello");
+})
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
-
-
-
-
-// const express = require("express");
-// const mongoose = require('mongoose');
-// const cors = require('cors');
-// const dotenv = require('dotenv')
-// const app = express();
-// const { Server } = require("socket.io");
-// const http = require("http");
-// const bodyParser = require("body-parser")
-
-// app.use(cors());
-// const server = http.createServer(app);
-// const io = new Server(server, {
-//   cors: {
-//     origin: "*",
-//   },
-// });
-// app.use(bodyParser.json());
-// app.get("/", (req, res) => {
-//   res.send("check");
-// });
-// server.listen(5000, () => {
-//     console.log("server started");
-// });
-// const url = "mongodb+srv://aryan:carboncopy@ownerserver.etxm4ay.mongodb.net/?retryWrites=true&w=majority&appName=OwnerServer";
-
-// mongoose.connect(url).then((results) => console.log("connected"));
-
-// io.on("connection", (socket)=>{
-//     console.log("New socket Connected", socket.id);
-
-//     socket.on("data", (formData) => {
-//       const dataRec = formData;
-//       console.log(formData);
-//       socket.emit("catch", dataRec);
-//     })
-
-// });
-
+app.use("/admin" , uploadRoute);
 
 
