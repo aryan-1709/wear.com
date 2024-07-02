@@ -7,6 +7,7 @@ const app = express();
 const http = require("http");
 const bodyParser = require("body-parser")
 const uploadRoute  = require("./Routes/routeUpload")
+const listProduct = require("./Routes/listProduct");
 
 app.use(cors());
 const server = http.createServer(app);
@@ -30,5 +31,4 @@ app.get("/", (req, res)=>{
 })
 
 app.use("/admin" , uploadRoute);
-
-
+app.use("/admin" , listProduct);
