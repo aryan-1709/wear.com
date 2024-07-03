@@ -1,8 +1,4 @@
 import React, { useState } from "react";
-// import mug from "../images/mug.jpg";
-// import keychain from "../images/keychain.jpg";
-// import tshirt from "../images/T-shirt.jpg";
-// import hoodie from "../images/hoodie.jpg";
 import { useLocation } from "react-router-dom";
 import { useCart } from "../controllers/CartContext";
 
@@ -15,24 +11,30 @@ const ProductDescription = () => {
   const [selectedColor, setSelectedcolor] = useState(0);
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]);
-  console.log(item);
+  const [state, setstate] = useState("Add To Cart");
+
   const product = {
     name: item.name,
-    description: "A stylish and comfo rtable t-shirt perfect for casual wear.",
+    description: item.description,
     price: item.price,
     colors: item.colors,
-    color_list: item.color_list,
-    sizes: ["S", "M", "L", "XL"],
+    color_list: item.listImages,
+    sizes: item.sizes,
     rating: 4.5,
     reviews: [],
   };
   const [images, setImages] = useState(product.color_list[0]);
+
   const setSelectedColor = (index) => {
     setImages(product.color_list[index]);
     setSelectedcolor(index);
   };
 
   const handleAddToCart = () => {
+    setstate("Added to Cart");
+    setTimeout(() => {
+      setstate("Add To Cart");
+    }, 500);
     addToCart(item);
   };
 
@@ -93,7 +95,7 @@ const ProductDescription = () => {
           <div className="mt-4">
             <h2 className="text-xl font-semibold">Colors</h2>
             <div className="flex mt-2">
-              {product.colors.map((color, index) => (
+              {product.color_list.map((color, index) => (
                 <img
                   key={index}
                   onClick={() => setSelectedColor(index)}
@@ -102,7 +104,7 @@ const ProductDescription = () => {
                       ? "border-2 border-blue-500"
                       : "border-none"
                   }`}
-                  src={color}
+                  src={color[0]}
                   alt=""
                 />
               ))}
@@ -111,10 +113,9 @@ const ProductDescription = () => {
           <div className="mt-4">
             <button
               className="bg-green-500 text-white px-6 py-3 rounded-lg mr-2"
-            //   TODO ? set the color of the imge and sent to cart
               onClick={() => handleAddToCart(product)}
             >
-              Add to Cart
+              {state}
             </button>
             <button
               className="bg-blue-500 text-white px-6 py-3 rounded-lg"

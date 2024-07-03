@@ -1,5 +1,5 @@
-import React from 'react';
-import { useCart } from '../controllers/CartContext';
+import React from "react";
+import { useCart } from "../controllers/CartContext";
 
 const CartPage = () => {
   const { cart, removeFromCart, clearCart, totalPrice } = useCart();
@@ -14,10 +14,13 @@ const CartPage = () => {
           <>
             <ul className="divide-y divide-gray-200">
               {cart.map((item) => (
-                <li key={item.id} className="flex items-center justify-between py-4">
+                <li
+                  key={item.id}
+                  className="flex items-center justify-between py-4"
+                >
                   <div className="flex items-center">
                     <img
-                      src={item.image}
+                      src={item.listImages[0][0]}
                       alt={item.name}
                       className="w-16 h-16 object-cover rounded-lg"
                     />
@@ -36,7 +39,9 @@ const CartPage = () => {
               ))}
             </ul>
             <div className="mt-4 flex items-center justify-between">
-              <p className="text-xl font-bold">Total: ₹{totalPrice.toFixed(2)}</p>
+              <p className="text-xl font-bold">
+                Total: ₹{totalPrice.toFixed(2)}
+              </p>
               <div>
                 <button
                   onClick={clearCart}
@@ -45,7 +50,7 @@ const CartPage = () => {
                   Clear Cart
                 </button>
                 <button
-                  onClick={() => alert('Proceeding to checkout...')}
+                  onClick={() => alert("Proceeding to checkout...")}
                   className="px-4 py-2 bg-green-500 text-white rounded-md"
                 >
                   Checkout

@@ -2,6 +2,16 @@ import React, { useState } from "react";
 const { Uploader } = require("../controllers/Uploader");
 const { ProductUploader } = require("../controllers/ProductUploader");
 
+const categories = [
+  "T-Shirts",
+  "Hoodies",
+  "Mugs",
+  "Keychains",
+  "Pillows",
+  "Caps",
+  "All",
+];
+
 const ProductForm = () => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
@@ -117,7 +127,7 @@ const ProductForm = () => {
       </div>
 
       <div>
-      {sizes.map((size, index) => (
+        {sizes.map((size, index) => (
           <div key={index} className="mt-1">
             <input
               type="text"
@@ -140,16 +150,22 @@ const ProductForm = () => {
         <label className="block text-sm font-medium text-gray-700">
           Category:
         </label>
-        <input
-          type="text"
-          value={category}
+        <select
+          id="categorySelect"
           onChange={(e) => setCategory(e.target.value)}
-          className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-        />
+        >
+          {categories.map((item, index) => (
+            <option key={index} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
       </div>
 
       <div>
-      <label className="block text-sm font-medium text-gray-700">Colors:</label>
+        <label className="block text-sm font-medium text-gray-700">
+          Colors:
+        </label>
         {colors.map((color, index) => (
           <div key={index} className="mt-1">
             <input
