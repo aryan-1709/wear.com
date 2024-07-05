@@ -17,7 +17,9 @@ const Navbar = () => {
     { name: "Products", des: '/' },
     { name: "About", des: '/' },
     { name: "Contact", des: '/'},
-    {name: '<>', icon: true, des: '/cart' }
+    {name: '<>', icon: true, des: '/cart' },
+    {name: 'Login', color: true, des: '/login'},
+    {name: 'Signup', color: true, des: '/signup'}
   ];
   const handleOnclick = (path, item) => {
     navigate(path, { state: { msg: item } });
@@ -52,7 +54,9 @@ const Navbar = () => {
                 <button
                   onClick={()=>{handleOnclick(item.des)}}
                   key={index}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium flex items-center"
+                  className={`text-gray-300 ${
+                    item.color ? `bg-blue-500 hover:bg-blue-400` : null 
+                  } hover:text-white px-3 py-2 hover:bg-gray-700 rounded-md text-sm font-medium flex items-center`}
                 >
                   {item.name}
                   {item.icon && <div className="pt-1 flex align-bottom"><i className="fas fa-shopping-cart ml-2"></i></div>}

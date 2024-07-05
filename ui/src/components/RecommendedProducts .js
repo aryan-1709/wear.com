@@ -50,7 +50,7 @@ const RecommendedProducts = () => {
           {products.map((product, index) => (
             <div
               onClick={() => handleOnclick(product.category)}
-              key={product.id}
+              key={index}
               id={`product-${product.id}`}
               className={`bg-white rounded-2xl shadow-md overflow-hidden  hover:cursor-pointer hover:translate-y-0 ${
                 visibleItems.includes(index)

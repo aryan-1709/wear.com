@@ -9,6 +9,8 @@ import CartPage from "../pages/CartPage";
 import ProductDescription from "../pages/ProductDescription ";
 import Navbar from "../components/Navbar";
 import ImageUpload from "../OwnerUI/ImageUpload";
+import Login from "../components/Authentication/Login/Login";
+import Register from "../components/Authentication/Register/Register";
 
 const Routers = () => {
   const Divi = () => {
@@ -24,11 +26,44 @@ const Routers = () => {
     );
   };
 
+  const CenteredLogin = () => {
+    return (
+      <div
+        className="flex items-center justify-center h-screen"
+        style={{
+          backgroundImage: `url('https://coolbackgrounds.io/images/backgrounds/index/ranger-4df6c1b6.png')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Login />
+      </div>
+    );
+  };
+
+  const CenteredRegister = () => {
+    return (
+      <div
+        className="flex items-center justify-center h-screen"
+        style={{
+          backgroundImage: `url('https://coolbackgrounds.io/images/backgrounds/index/ranger-4df6c1b6.png')`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      >
+        <Register />
+      </div>
+    );
+  };
+
   return (
     <CartProvider>
       <BrowserRouter>
         <Navbar />
         <Routes>
+          <Route exact path="/login" element={<CenteredLogin />} />
+          <Route exact path="/signup" element={<CenteredRegister />} />
+          <Route exact path="/login" element={<CenteredLogin />} />
           <Route path="/upload" element={<ImageUpload />} />
           <Route exact path="/admin" element={<ProductForm />} />
           <Route path="/" element={<Divi />} />
