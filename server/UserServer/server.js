@@ -15,6 +15,8 @@ app.use(bodyParser.json());
 const additems = require("./Routes/cartRoute");
 const userLogin = require("./Routes/userLogin");
 const signupRoute = require("./Routes/signupRoute");
+const loadProducts = require("./Routes/loadProducts");
+const deleteItem = require("./Routes/deleteItemRoute");
 
 //env variables
 const PORT = process.env.PORT || 3000;
@@ -30,6 +32,8 @@ try {
 app.use("/user", additems);
 app.use("/user", userLogin);
 app.use("/user", signupRoute);
+app.use("/user", loadProducts);
+app.use("/user", deleteItem);
 
 app.listen(process.env.PORT, ()=>{
     console.log(`Server Started http://localhost:${PORT}`);

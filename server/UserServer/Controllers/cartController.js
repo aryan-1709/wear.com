@@ -1,11 +1,10 @@
 const Item = require("../Schemas/cartSchema");
 const User = require("../Schemas/UserSchema");
 
-const cartController = async (userId, objectId, qty) => {
+const cartController = async (userId, object, qty) => {
     try {
-        console.log(userId," ",objectId," ", qty);
         const item = new Item({
-            product_id: objectId,
+            products: object,
             quantity: qty
         });
         //I am not saving this product to items
@@ -18,7 +17,34 @@ const cartController = async (userId, objectId, qty) => {
     } catch (error) {
         return {"Cannot save Item": error};
     }
-    
 }
 
-module.exports =  cartController;
+const deleteItem = async ({userId, object, qty}) => {
+    try {
+        // console.log(userId, object, qty);
+        await User.findById(userId).then( async (user)=>{
+            const cart = user.cart;
+            // console.log(cart)
+            const ref = cart.find((products._id).toString()==(object._id).toString());
+            console.log(ref);
+        }); 
+        // await User.findByIdAndUpdate(
+        //     userId,
+        //     { $pull: { cart: {products: object } } },
+        //     { new: true }, // To return the updated document
+        //     function(err, updatedUser) {
+        //         if (err) {
+        //             console.error("Error removing item from cart:", err);
+        //         } else {
+        //             console.log("Item removed from cart successfully:", updatedUser);
+        //         }
+        //     }
+        // );
+    } catch (error) {
+        return "test";
+    }
+}
+
+
+
+module.exports =  {cartController, deleteItem};

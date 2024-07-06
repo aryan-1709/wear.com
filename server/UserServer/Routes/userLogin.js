@@ -3,7 +3,6 @@ const router = express.Router();
 const loginController = require("../Controllers/loginController");
 
 router.post("/login", async (req, res)=>{
-    // console.log(req.body);
     const resp = await loginController({email:req.body.email, password:req.body.password})
     res.json(resp);
 })

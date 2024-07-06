@@ -1,10 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const cartController = require("../Controllers/cartController");
+const {cartController} = require("../Controllers/cartController");
 
 router.post("/addItem", async (req, res) => {
-    console.log("Hit", req.body);
-    const resp = await cartController(req.body.userId, req.body.ObjectId, req.body.qty);
+    const resp = await cartController(req.body.userId, req.body.product, req.body.qty);
     return res.json(resp);
 });
 
