@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import React from "react";
-import { CartProvider } from "../controllers/CartContext";
+import { CartProvider } from "../Contexts/CartContext";
+import { User } from "../Contexts/userContext";
 import ProductForm from "../OwnerUI/ProductForm";
 import CollectionsPage from "../components/CollectionsPage";
 import HeroSection from "../components/HeroSection";
@@ -57,22 +58,24 @@ const Routers = () => {
   };
 
   return (
-    <CartProvider>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route exact path="/login" element={<CenteredLogin />} />
-          <Route exact path="/signup" element={<CenteredRegister />} />
-          <Route exact path="/login" element={<CenteredLogin />} />
-          <Route path="/upload" element={<ImageUpload />} />
-          <Route exact path="/admin" element={<ProductForm />} />
-          <Route path="/" element={<Divi />} />
-          <Route exact path="/collections" element={<CollectionsPage />} />
-          <Route exact path="/cart" element={<CartPage />} />
-          <Route exact path="/description" element={<ProductDescription />} />
-        </Routes>
-      </BrowserRouter>
-    </CartProvider>
+    <User>
+      <CartProvider>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route exact path="/login" element={<CenteredLogin />} />
+            <Route exact path="/signup" element={<CenteredRegister />} />
+            <Route exact path="/login" element={<CenteredLogin />} />
+            <Route path="/upload" element={<ImageUpload />} />
+            <Route exact path="/admin" element={<ProductForm />} />
+            <Route path="/" element={<Divi />} />
+            <Route exact path="/collections" element={<CollectionsPage />} />
+            <Route exact path="/cart" element={<CartPage />} />
+            <Route exact path="/description" element={<ProductDescription />} />
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
+     </User> 
   );
 };
 export default Routers;

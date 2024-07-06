@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useCart } from "../controllers/CartContext";
+import { useCart } from "../Contexts/CartContext";
 import "react-toastify/dist/ReactToastify.css";
 import { getProducts } from "../controllers/getProducts";
 
@@ -28,7 +28,6 @@ const CollectionsPage = () => {
 
   useEffect(() => {
     setproducts(datas.data);
-    console.log(products);
   }, [products]);
 
   useEffect(() => {

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import basestyle from "../Base.module.css";
 import loginstyle from "./Login.module.css";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
-const Login = ({ setUserState }) => {
+import { UserContext } from "../../../Contexts/userContext";
+const Login = () => {
+  const { setuserInfo } = useContext(UserContext);
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
@@ -42,13 +44,13 @@ const Login = ({ setUserState }) => {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
-      axios.post("http://localhost:8000/login", user).then((res) => {
-        alert(res.data.message);
-        setUserState(res.data.user);
+      axios.post("http://localhost:5000/user/login", user).then((res) => {
+        alert(res.data.msg);
+        setuserInfo(res.data.user);
         navigate("/", { replace: true });
       });
     }
-  }, [formErrors]);
+  }, [formErrors, isSubmit]);
   return (
     <div className={`${loginstyle.login} w-full`}>
       <form>

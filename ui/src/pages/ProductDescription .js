@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
-import { useCart } from "../controllers/CartContext";
+import { useCart } from "../Contexts/CartContext";
 
 const ProductDescription = () => {
   const { addToCart } = useCart();

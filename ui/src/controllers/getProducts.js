@@ -3,7 +3,7 @@ const locaPath = "http://localhost:5000";
 
 const getProducts = async () => {
   try {
-    const data = await axios.get(`${locaPath}/admin/get`);
+    const data = await axios.get(`${locaPath}/user/get`);
     return data;
   } catch (error) {
     return error;
