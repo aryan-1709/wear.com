@@ -12,11 +12,10 @@ app.use(cors());
 app.use(bodyParser.json());
 
 //Routes
-const additems = require("./Routes/cartRoute");
 const userLogin = require("./Routes/userLogin");
 const signupRoute = require("./Routes/signupRoute");
 const loadProducts = require("./Routes/loadProducts");
-const deleteItem = require("./Routes/deleteItemRoute");
+const cartRoute = require("./Routes/CartRoutes/cartControllerRoute");
 
 //env variables
 const PORT = process.env.PORT || 3000;
@@ -24,17 +23,16 @@ const URL = process.env.MONGO_URL;
 
 //Connect to MongoDB
 try {
-    mongoose.connect(URL).then(console.log("Connected"));
+  mongoose.connect(URL).then(console.log("Connected"));
 } catch (error) {
-    console.log("Error Connecting DB");
+  console.log("Error Connecting DB");
 }
 
-app.use("/user", additems);
 app.use("/user", userLogin);
 app.use("/user", signupRoute);
 app.use("/user", loadProducts);
-app.use("/user", deleteItem);
+app.use("/user", cartRoute);
 
-app.listen(process.env.PORT, ()=>{
-    console.log(`Server Started http://localhost:${PORT}`);
-})
+app.listen(process.env.PORT, () => {
+  console.log(`Server Started http://localhost:${PORT}`);
+});
