@@ -1,7 +1,11 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import { UserContext } from "../Contexts/userContext";
-import {cartHandler, deleteItem} from "../controllers/cartHandler";
-
+import {
+  cartHandler,
+  deleteItem,
+  getProductById,
+  clearCartItems,
+} from "../controllers/cartHandler";
 
 const CartContext = createContext();
 
@@ -10,35 +14,43 @@ export const useCart = () => {
 };
 
 export const CartProvider = ({ children }) => {
-  const {userInfo} = useContext(UserContext);
+  const { userInfo } = useContext(UserContext);
 
   const [cart, setCart] = useState([]);
 
   useEffect(() => {
+    const setPrevCart = async () => {
+      if (userInfo.cart.length !== 0) {
+        const items = await getProductById(userInfo.cart);
+        setCart(items);
+      }
+    };
     if (userInfo) {
-      setCart(userInfo.cart);
+      setPrevCart();
     }
   }, [userInfo]);
 
   const addToCart = async (product) => {
-    if (!cart.includes(product)){ 
-      const res = await cartHandler({product:product, userId:userInfo._id, qty:1});
-      console.log(res);
-      setCart((prevCart) => [...prevCart, {products:product, qty:1}]);
-      console.log(cart);
+    if (!cart.includes(product)) {
+      await cartHandler({ product: product, userId: userInfo._id, qty: 1 });
+      setCart((prevCart) => [...prevCart, { products: product, qty: 1 }]);
     }
   };
 
   const removeFromCart = async (product) => {
-    const res = deleteItem({product:product, userId:userInfo._id, qty:1});
+    await deleteItem({ product: product, userId: userInfo._id, qty: 1 });
     setCart((prevCart) => prevCart.filter((item) => item.products !== product));
   };
 
-  const clearCart = () => {
+  const clearCart = async () => {
+    await clearCartItems({ userId: userInfo._id });
     setCart([]);
   };
 
-  const totalPrice = cart.reduce((total, item) => total + item.products.price, 0);
+  const totalPrice = cart.reduce(
+    (total, item) => total + item.products.price,
+    0
+  );
 
   return (
     <CartContext.Provider

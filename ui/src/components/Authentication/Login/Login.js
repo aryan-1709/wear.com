@@ -43,14 +43,13 @@ const Login = () => {
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      console.log(user);
       axios.post("http://localhost:5000/user/login", user).then((res) => {
         alert(res.data.msg);
         setuserInfo(res.data.user);
         navigate("/", { replace: true });
       });
     }
-  }, [formErrors, isSubmit]);
+  }, [formErrors, isSubmit, navigate, setuserInfo, user]);
   return (
     <div className={`${loginstyle.login} w-full`}>
       <form>

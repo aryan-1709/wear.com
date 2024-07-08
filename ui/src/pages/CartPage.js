@@ -24,7 +24,9 @@ const CartPage = () => {
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                     <div className="ml-4">
-                      <h3 className="text-lg font-bold">{item.products.name}</h3>
+                      <h3 className="text-lg font-bold">
+                        {item.products.name}
+                      </h3>
                       <p className="text-gray-500">₹{item.products.price}</p>
                     </div>
                   </div>
