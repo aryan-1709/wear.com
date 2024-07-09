@@ -43,11 +43,15 @@ const Login = () => {
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
-      axios.post("http://localhost:5000/user/login", user).then((res) => {
-        alert(res.data.msg);
-        setuserInfo(res.data.user);
-        navigate("/", { replace: true });
-      });
+      try {
+        axios.post("http://localhost:5000/user/login", user).then((res) => {
+          alert(res.data.msg);
+          setuserInfo(res.data.user);
+          navigate("/", { replace: true });
+        });
+      } catch (error) {
+        navigate("/serverError");
+      }
     }
   }, [formErrors, isSubmit, navigate, setuserInfo, user]);
   return (

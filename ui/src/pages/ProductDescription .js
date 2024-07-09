@@ -52,6 +52,7 @@ const ProductDescription = () => {
       <div className="flex flex-wrap">
         <div className="w-full md:w-1/2">
           <img
+            loading="lazy"
             src={images[selectedImage]}
             alt="Product"
             className="w-[550px] h-[550px] rounded-lg"
@@ -59,6 +60,7 @@ const ProductDescription = () => {
           <div className="flex mt-4">
             {images.map((image, index) => (
               <img
+                loading="lazy"
                 key={index}
                 src={image}
                 alt={`Thumbnail ${index}`}
@@ -97,6 +99,7 @@ const ProductDescription = () => {
             <div className="flex mt-2">
               {product.color_list.map((color, index) => (
                 <img
+                  loading="lazy"
                   key={index}
                   onClick={() => setSelectedColor(index)}
                   className={`px-0.5 py-0.5 rounded-lg mx-1 h-[40px] w-[40px] ${

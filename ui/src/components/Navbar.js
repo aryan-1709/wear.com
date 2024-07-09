@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../Contexts/userContext";
+import { useCart } from "../Contexts/CartContext";
 
 const Navbar = () => {
+  const {userInfo, setuserInfo} = useContext(UserContext);
+  const { cart } = useCart();
+  const [logged, setLogged] = useState("Login/Signup");
+  const [des, setdes] = useState("/login")
+  const [numberOfItems, setNumberOfItems] = useState(0)
+
+  useEffect(() => {
+    if(userInfo){
+      setLogged("Logout");
+      setdes("/logout");
+    }
+  }, [userInfo])
+
+  useEffect(() => {
+    const numberOfItems = cart.length;
+    setNumberOfItems(numberOfItems)
+
+  },[cart])
+  
+
   const navigate = useNavigate();
   const items = [
     "T-Shirts",
@@ -12,16 +34,22 @@ const Navbar = () => {
     "Caps",
     "All",
   ];
-  const buttonItems = [
-    { name: "Home", des: '/' },
-    { name: "Products", des: '/' },
-    { name: "About", des: '/' },
-    { name: "Contact", des: '/'},
-    {name: '<>', icon: true, des: '/cart' },
-    {name: 'Login', color: true, des: '/login'},
-    {name: 'Signup', color: true, des: '/signup'}
+  let buttonItems = [
+    { name: "Home", des: "/" },
+    { name: "Products", des: "/" },
+    { name: "About", des: "/" },
+    { name: "Contact", des: "/" },
+    { name: `<${numberOfItems}>`, icon: true, des: "/cart" },
+    { name: logged, color: true, des: `${des}` },
   ];
+
   const handleOnclick = (path, item) => {
+    if(path === "/logout"){
+      setuserInfo();
+      setLogged("Login/Signup");
+      setdes("/login");
+      navigate("/");
+    } else
     navigate(path, { state: { msg: item } });
   };
 
@@ -52,14 +80,20 @@ const Navbar = () => {
             <div className="hidden sm:flex sm:items-center sm:justify-end space-x-4">
               {buttonItems.map((item, index) => (
                 <button
-                  onClick={()=>{handleOnclick(item.des)}}
+                  onClick={() => {
+                    handleOnclick(item.des);
+                  }}
                   key={index}
                   className={`text-gray-300 ${
-                    item.color ? `bg-blue-500 hover:bg-blue-400` : null 
+                    item.color ? `bg-blue-500 hover:bg-blue-400` : null
                   } hover:text-white px-3 py-2 hover:bg-gray-700 rounded-md text-sm font-medium flex items-center`}
                 >
                   {item.name}
-                  {item.icon && <div className="pt-1 flex align-bottom"><i className="fas fa-shopping-cart ml-2"></i></div>}
+                  {item.icon && (
+                    <div className="pt-1 flex align-bottom">
+                      <i className="fas fa-shopping-cart ml-2"></i>
+                    </div>
+                  )}
                 </button>
               ))}
             </div>

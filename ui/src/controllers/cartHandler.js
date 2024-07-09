@@ -2,12 +2,16 @@ import axios from "axios";
 const localpath = "http://localhost:5000";
 
 const cartHandler = async ({ product, userId, qty }) => {
-  const res = await axios.post(`${localpath}/user/addItem`, {
-    userId: userId,
-    product: product._id,
-    qty: qty,
-  });
-  return res;
+  try {
+    const res = await axios.post(`${localpath}/user/addItem`, {
+      userId: userId,
+      product: product._id,
+      qty: qty,
+    });
+    return res;
+  } catch (error) {
+    return { error: error };
+  }
 };
 
 const deleteItem = async ({ product, userId, qty }) => {
@@ -26,7 +30,7 @@ const clearCartItems = async ({ userId }) => {
     });
     return res;
   } catch (error) {
-    console.log("Error occured Axios");
+    return { error: error };
   }
 };
 
@@ -34,10 +38,14 @@ const getProductById = async (cart) => {
   let myCart = [];
   await Promise.all(
     cart.map(async (item) => {
-      const product = await axios.post(`${localpath}/user/getProductById`, {
-        product_id: item.products,
-      });
-      myCart.push({ products: product.data, qty: 1 });
+      try {
+        const product = await axios.post(`${localpath}/user/getProductById`, {
+          product_id: item.products,
+        });
+        myCart.push({ products: product.data, qty: 1 });
+      } catch (error) {
+        return { error: error };
+      }
     })
   );
   return myCart;

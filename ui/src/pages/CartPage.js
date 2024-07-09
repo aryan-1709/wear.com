@@ -19,6 +19,7 @@ const CartPage = () => {
                 >
                   <div className="flex items-center">
                     <img
+                      loading="lazy"
                       src={item.products.listImages[0][0]}
                       alt={item.products.name}
                       className="w-16 h-16 object-cover rounded-lg"

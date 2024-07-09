@@ -26,9 +26,14 @@ const CollectionsPage = () => {
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [products, setproducts] = useState([]);
 
+
+
   useEffect(() => {
+    if(datas.error){
+      navigate("/serverError");
+    } else
     setproducts(datas.data);
-  }, [products]);
+  }, [products, navigate]);
 
   useEffect(() => {
     setSelectedCategory(msg);
@@ -82,6 +87,7 @@ const CollectionsPage = () => {
             >
               <div className="transform transition-transform duration-500 group-hover:-translate-y-5">
                 <img
+                  loading="lazy"
                   onClick={() => handleDescription(product)}
                   src={product.listImages[0][0]}
                   alt={product.name}
@@ -104,8 +110,9 @@ const CollectionsPage = () => {
                     <button
                       onClick={() => handleAddToCart(product)}
                       className="mt-4 px-2 py-2 bg-gray-700 text-white rounded-md w-32 text-center"
-                    >
-                      Buy Now
+                    ><span className="truncate">
+                    {"Buy Now"}
+                  </span>
                     </button>
                   </div>
                 </div>

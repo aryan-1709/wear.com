@@ -8,19 +8,22 @@ const RecommendedProducts = () => {
   const navigate = useNavigate();
   const [visibleItems, setVisibleItems] = useState([]);
   const [products, setproduct] = useState([]);
+
   useEffect(() => {
-    setproduct(items.data);
-  }, [products]);
+    if (items.error) {
+      navigate("/serverError");
+    } else setproduct(items.data);
+  }, [products, navigate]);
 
   useEffect(() => {
     const handleScroll = () => {
       const windowHeight = window.innerHeight;
       const visibleItems = products
         .map((product) => {
-          const el = document.getElementById(`product-${product.id}`);
+          const el = document.getElementById(`id-${product._id}`);
           if (el) {
             const rect = el.getBoundingClientRect();
-            const threshold = windowHeight - el.offsetHeight * 0.45;
+            const threshold = windowHeight - el.offsetHeight * 0.01;
             return rect.top <= threshold;
           }
           return false;
@@ -51,7 +54,7 @@ const RecommendedProducts = () => {
             <div
               onClick={() => handleOnclick(product.category)}
               key={index}
-              id={`product-${product.id}`}
+              id={`id-${product._id}`}
               className={`bg-white rounded-2xl shadow-md overflow-hidden  hover:cursor-pointer hover:translate-y-0 ${
                 visibleItems.includes(index)
                   ? "transition-all duration-500 transform translate-y-4 opacity-100"
@@ -63,7 +66,8 @@ const RecommendedProducts = () => {
               }}
             >
               <img
-                src={product.listImages[0]}
+                loading="lazy"
+                src={product.listImages[0][0]}
                 alt={product.name}
                 className="w-full h-80 object-cover"
               />

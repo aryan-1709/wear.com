@@ -6,7 +6,7 @@ const getProducts = async () => {
     const data = await axios.get(`${locaPath}/user/get`);
     return data;
   } catch (error) {
-    return error;
+    return { error: error };
   }
 };
 

@@ -12,6 +12,7 @@ import Navbar from "../components/Navbar";
 import ImageUpload from "../OwnerUI/ImageUpload";
 import Login from "../components/Authentication/Login/Login";
 import Register from "../components/Authentication/Register/Register";
+import ServerErrorPage from "../pages/ServerErrorPage";
 
 const Routers = () => {
   const Divi = () => {
@@ -59,23 +60,23 @@ const Routers = () => {
 
   return (
     <User>
-      <CartProvider>
-        <BrowserRouter>
+      <BrowserRouter>
+        <CartProvider>
           <Navbar />
           <Routes>
             <Route exact path="/login" element={<CenteredLogin />} />
             <Route exact path="/signup" element={<CenteredRegister />} />
-            <Route exact path="/login" element={<CenteredLogin />} />
             <Route path="/upload" element={<ImageUpload />} />
             <Route exact path="/admin" element={<ProductForm />} />
             <Route path="/" element={<Divi />} />
             <Route exact path="/collections" element={<CollectionsPage />} />
             <Route exact path="/cart" element={<CartPage />} />
             <Route exact path="/description" element={<ProductDescription />} />
+            <Route exact path="/serverError" element={<ServerErrorPage />} />
           </Routes>
-        </BrowserRouter>
-      </CartProvider>
-     </User> 
+        </CartProvider>
+      </BrowserRouter>
+    </User>
   );
 };
 export default Routers;
