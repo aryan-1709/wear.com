@@ -1,9 +1,10 @@
 import axios from "axios";
-const locaPath = "http://localhost:5000";
+const localpath = process.env.REACT_APP_SERVER_URL;
+console.log(localpath);
 
 const getProducts = async () => {
   try {
-    const data = await axios.get(`${locaPath}/user/get`);
+    const data = await axios.get(`${localpath}/user/get`);
     return data;
   } catch (error) {
     return { error: error };

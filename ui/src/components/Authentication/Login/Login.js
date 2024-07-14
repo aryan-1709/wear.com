@@ -4,6 +4,9 @@ import loginstyle from "./Login.module.css";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 import { UserContext } from "../../../Contexts/userContext";
+
+const path = process.env.REACT_APP_SERVER_URL;
+
 const Login = () => {
   const { setuserInfo } = useContext(UserContext);
   const navigate = useNavigate();
@@ -44,7 +47,7 @@ const Login = () => {
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       try {
-        axios.post("http://localhost:5000/user/login", user).then((res) => {
+        axios.post(`${path}/user/login`, user).then((res) => {
           alert(res.data.msg);
           if(res.data.state === 1){
             setuserInfo(res.data.user);

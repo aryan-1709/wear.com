@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Routers from './routes/Routes';
-// import App from './LoginPage/src/App';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <Routers />

@@ -1,5 +1,5 @@
 import axios from "axios";
-const locapath = "http://localhost:5000";
+const locapath = "https://wear-com.onrender.com";
 
 const ProductUploader = async (file) =>{
     try {

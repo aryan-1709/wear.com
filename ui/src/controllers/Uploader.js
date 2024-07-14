@@ -1,5 +1,5 @@
 import axios from "axios";
-const localpath = "http://localhost:5000";
+const localpath = "https://wear-com.onrender.com";
 
 const Uploader = async (file) => {
   try {
