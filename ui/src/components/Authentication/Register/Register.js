@@ -63,7 +63,7 @@ const Register = () => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
       axios.post("http://localhost:5000/user/signup", user).then((res) => {
-        alert(res.data);
+        alert(res.data.msg);
         navigate("/login", { replace: true });
       });
     }

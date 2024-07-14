@@ -46,8 +46,20 @@ const Login = () => {
       try {
         axios.post("http://localhost:5000/user/login", user).then((res) => {
           alert(res.data.msg);
-          setuserInfo(res.data.user);
-          navigate("/", { replace: true });
+          if(res.data.state === 1){
+            setuserInfo(res.data.user);
+            navigate("/", { replace: true });
+          }
+          else if(res.data.state === 3){
+            navigate("/signup");
+          }else{
+            setIsSubmit(false);
+            setUserDetails({
+              email:user.email,
+              password: "",
+            });
+            setFormErrors({});
+          }
         });
       } catch (error) {
         navigate("/serverError");
