@@ -5,13 +5,15 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon start ./OwnerServer/index.js",
-    "loginStart":"nodemon start ./LoginServer/server.js",
-    "dev": "nodemon start ./UserServer/server.js", 
+    "loginStart": "nodemon start ./LoginServer/server.js",
+    "dev": "nodemon start ./UserServer/server.js",
+    "predict": "nodemon ./ML_Model/server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@tensorflow/tfjs": "^4.20.0",
     "aws-sdk": "^2.1640.0",
     "cloudinary": "^2.2.0",
     "cors": "^2.8.5",

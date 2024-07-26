@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const Item = require("./cartSchema");
 const Schema = mongoose.Schema;
 const Buy = require("./purchaseSchema");
+const ContactUsSchema = require("./ContactUsSchema")
 
 const userSchema = new Schema({
     name:{
@@ -23,6 +24,10 @@ const userSchema = new Schema({
     },
     purchasedItems:{
         type:[Buy.schema],
+        default:[]
+    },
+    support:{
+        type:[ContactUsSchema.schema],
         default:[]
     }
   });

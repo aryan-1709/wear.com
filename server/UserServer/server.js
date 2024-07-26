@@ -16,6 +16,7 @@ const userLogin = require("./Routes/userLogin");
 const signupRoute = require("./Routes/signupRoute");
 const loadProducts = require("./Routes/loadProducts");
 const cartRoute = require("./Routes/CartRoutes/cartControllerRoute");
+const support = require("./Routes/Support/enquiry");
 
 //env variables
 const PORT = process.env.PORT || 3000;
@@ -32,6 +33,7 @@ app.use("/user", userLogin);
 app.use("/user", signupRoute);
 app.use("/user", loadProducts);
 app.use("/user", cartRoute);
+app.use("/user", support);
 
 app.listen(process.env.PORT, () => {
   console.log(`Server Started http://localhost:${PORT}`);
