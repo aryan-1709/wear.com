@@ -13,6 +13,7 @@ import ImageUpload from "../OwnerUI/ImageUpload";
 import Login from "../components/Authentication/Login/Login";
 import Register from "../components/Authentication/Register/Register";
 import ServerErrorPage from "../pages/ServerErrorPage";
+import ContactUs from "../pages/ContactUs";
 
 const Routers = () => {
   const Divi = () => {
@@ -62,7 +63,7 @@ const Routers = () => {
     <User>
       <BrowserRouter>
         <CartProvider>
-          <Navbar />
+          <Navbar />  
           <Routes>
             <Route exact path="/login" element={<CenteredLogin />} />
             <Route exact path="/signup" element={<CenteredRegister />} />
@@ -73,6 +74,7 @@ const Routers = () => {
             <Route exact path="/cart" element={<CartPage />} />
             <Route exact path="/description" element={<ProductDescription />} />
             <Route exact path="/serverError" element={<ServerErrorPage />} />
+            <Route exact path="/support" element={<ContactUs />} />
           </Routes>
         </CartProvider>
       </BrowserRouter>

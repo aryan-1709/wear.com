@@ -1,6 +1,5 @@
 import axios from "axios";
 const localpath = process.env.REACT_APP_SERVER_URL;
-console.log(localpath);
 
 const cartHandler = async ({ product, userId, qty }) => {
   try {

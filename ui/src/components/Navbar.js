@@ -38,7 +38,7 @@ const Navbar = () => {
     { name: "Home", des: "/" },
     { name: "Products", des: "/" },
     { name: "About", des: "/" },
-    { name: "Contact", des: "/" },
+    { name: "Contact Us", des: "/support" },
     { name: `<${numberOfItems}>`, icon: true, des: "/cart" },
     { name: logged, color: true, des: `${des}` },
   ];

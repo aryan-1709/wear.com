@@ -1,5 +1,5 @@
 import axios from "axios";
-const locapath = "https://wear-com.onrender.com";
+const locapath = process.env.REACT_APP_SERVER_URL;
 
 const ProductUploader = async (file) =>{
     try {
