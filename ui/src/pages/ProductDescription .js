@@ -1,45 +1,43 @@
-import React, { useState } from "react";
-import { useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import { useCart } from "../Contexts/CartContext";
+import { getProductById } from "../controllers/Products/getSingleProduct"; // Add a controller to fetch product by ID
 
 const ProductDescription = () => {
+  const { id } = useParams(); // Retrieve the _id from the URL
   const { addToCart } = useCart();
-  const location = useLocation();
-  const { item } = location.state;
+  const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
   const [selectedSize, setSelectedSize] = useState("");
-  const [selectedColor, setSelectedcolor] = useState(0);
+  const [selectedColor, setSelectedColor] = useState(0);
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]);
-  const [state, setstate] = useState("Add To Cart");
+  const [state, setState] = useState("Add To Cart");
 
-  const product = {
-    name: item.name,
-    description: item.description,
-    price: item.price,
-    colors: item.colors,
-    color_list: item.listImages,
-    sizes: item.sizes,
-    rating: 4.5,
-    reviews: [],
-  };
-  const [images, setImages] = useState(product.color_list[0]);
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const response = await getProductById(id); // Fetch product using _id
+      if (response.error) {
+        // Handle error or redirect to an error page
+        console.error("error: " , response.error);
+      } else {
+        setProduct(response.data);
+      }
+    };
 
-  const setSelectedColor = (index) => {
-    setImages(product.color_list[index]);
-    setSelectedcolor(index);
-  };
+    fetchProduct();
+  }, [id]);
+
+  if (!product) {
+    return <div>Loading...</div>;
+  }
 
   const handleAddToCart = () => {
-    setstate("Added to Cart");
+    setState("Added to Cart");
     setTimeout(() => {
-      setstate("Add To Cart");
+      setState("Add To Cart");
     }, 500);
-    addToCart(item);
-  };
-
-  const handleBuyNow = () => {
-    // Buy now functionality
+    addToCart({product:product, selectedSize:selectedSize, selectedImage:selectedImage, selectedColor:selectedColor});
   };
 
   const handleReviewSubmit = () => {
@@ -49,16 +47,17 @@ const ProductDescription = () => {
 
   return (
     <div className="container mx-auto p-4">
+      {/* Render product details */}
       <div className="flex flex-wrap">
         <div className="w-full md:w-1/2">
           <img
             loading="lazy"
-            src={images[selectedImage]}
+            src={product.listImages[selectedColor][selectedImage]}
             alt="Product"
             className="w-[550px] h-[550px] rounded-lg"
           />
           <div className="flex mt-4">
-            {images.map((image, index) => (
+            {product.listImages[selectedColor].map((image, index) => (
               <img
                 loading="lazy"
                 key={index}
@@ -79,15 +78,15 @@ const ProductDescription = () => {
           <div className="mt-4">
             <h2 className="text-xl font-semibold">Sizes</h2>
             <div className="flex mt-2">
-              {product.sizes.map((size) => (
+              {product.sizes.map((size, index) => (
                 <button
-                  key={size}
+                  key={index}
                   className={`px-4 py-2 rounded-lg mx-1 ${
-                    selectedSize === size
+                    selectedSize === index
                       ? "bg-blue-500 text-white"
                       : "bg-gray-200"
                   }`}
-                  onClick={() => setSelectedSize(size)}
+                  onClick={() => setSelectedSize(index)}
                 >
                   {size}
                 </button>
@@ -97,7 +96,7 @@ const ProductDescription = () => {
           <div className="mt-4">
             <h2 className="text-xl font-semibold">Colors</h2>
             <div className="flex mt-2">
-              {product.color_list.map((color, index) => (
+              {product.listImages.map((color, index) => (
                 <img
                   loading="lazy"
                   key={index}
@@ -116,15 +115,9 @@ const ProductDescription = () => {
           <div className="mt-4">
             <button
               className="bg-green-500 text-white px-6 py-3 rounded-lg mr-2"
-              onClick={() => handleAddToCart(product)}
+              onClick={handleAddToCart}
             >
               {state}
-            </button>
-            <button
-              className="bg-blue-500 text-white px-6 py-3 rounded-lg"
-              onClick={handleBuyNow}
-            >
-              Buy Now
             </button>
           </div>
         </div>

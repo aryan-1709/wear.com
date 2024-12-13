@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../Contexts/CartContext";
 import "react-toastify/dist/ReactToastify.css";
-import { getProducts } from "../controllers/getProducts";
+import { getProducts } from "../controllers/Products/getProducts";
 
 const categories = [
   "All",
@@ -49,7 +49,8 @@ const CollectionsPage = () => {
   };
 
   const handleDescription = (item) => {
-    navigate("/description", { state: { item: item } });
+    // navigate(`/description/${item._id}`, { state: { item: item } });
+    navigate(`/description/${item._id}`);
   };
 
   const filteredProducts =

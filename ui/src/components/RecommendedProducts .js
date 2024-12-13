@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getProducts } from "../controllers/getProducts";
+import { getProducts } from "../controllers/Products/getProducts";
 
 const items = await getProducts();
 

@@ -14,7 +14,8 @@ app.use(bodyParser.json());
 //Routes
 const userLogin = require("./Routes/userLogin");
 const signupRoute = require("./Routes/signupRoute");
-const loadProducts = require("./Routes/loadProducts");
+const loadProducts = require("./Routes/Products/loadProducts");
+const loadSingleProduct = require("./Routes/Products/loadSingleProduct")
 const cartRoute = require("./Routes/CartRoutes/cartControllerRoute");
 const support = require("./Routes/Support/enquiry");
 
@@ -32,6 +33,7 @@ try {
 app.use("/user", userLogin);
 app.use("/user", signupRoute);
 app.use("/user", loadProducts);
+app.use("/user", loadSingleProduct);
 app.use("/user", cartRoute);
 app.use("/user", support);
 

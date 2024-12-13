@@ -72,7 +72,7 @@ const Routers = () => {
             <Route path="/" element={<Divi />} />
             <Route exact path="/collections" element={<CollectionsPage />} />
             <Route exact path="/cart" element={<CartPage />} />
-            <Route exact path="/description" element={<ProductDescription />} />
+            <Route exact path="/description/:id" element={<ProductDescription />} />
             <Route exact path="/serverError" element={<ServerErrorPage />} />
             <Route exact path="/support" element={<ContactUs />} />
           </Routes>
