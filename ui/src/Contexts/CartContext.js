@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import {
   cartHandler,
   deleteItem,
-  getProductById,
+  getProducts,
   clearCartItems,
 } from "../controllers/cartHandler";
 
@@ -22,7 +22,7 @@ export const CartProvider = ({ children }) => {
   useEffect(() => {
     const setPrevCart = async () => {
       if (userInfo.cart.length !== 0) {
-        const items = await getProductById(userInfo.cart);
+        const items = await getProducts(userInfo.cart);
         if (items.error) {
           navigate("/serverError");
         }
@@ -36,7 +36,7 @@ export const CartProvider = ({ children }) => {
     }
   }, [userInfo]);
 
-  const addToCart = async (product) => {
+  const addToCart = async ({product, selectedSize, selectedImage, selectedColor}) => {
     if (!userInfo) {
       navigate("/login");
     } else if (!cart.includes(product)) {
@@ -44,11 +44,13 @@ export const CartProvider = ({ children }) => {
         product: product,
         userId: userInfo._id,
         qty: 1,
+        size: selectedSize, 
+        color: selectedColor
       });
       if (res.error) {
         navigate("/serverError");
       }
-      setCart((prevCart) => [...prevCart, { products: product, qty: 1 }]);
+      setCart((prevCart) => [...prevCart, { products: product, qty: 1, color: selectedColor, size:  selectedSize}]);
     }
   };
 

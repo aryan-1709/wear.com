@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useCart } from "../Contexts/CartContext";
-import { getProductById } from "../controllers/Products/getSingleProduct"; // Add a controller to fetch product by ID
+import { getProductById } from "../controllers/Products/getSingleProduct"; 
+import {GridLoader} from "react-spinners"
 
 const ProductDescription = () => {
+  const location = useLocation();
+  const data = location.state;
   const { id } = useParams(); // Retrieve the _id from the URL
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
@@ -13,12 +16,17 @@ const ProductDescription = () => {
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]);
   const [state, setState] = useState("Add To Cart");
-
+  useEffect(() => {
+    if(data){
+      setSelectedSize(data.size);
+      setSelectedColor(data.color);
+    }
+  }, [data])
+  
   useEffect(() => {
     const fetchProduct = async () => {
-      const response = await getProductById(id); // Fetch product using _id
+      const response = await getProductById(id);
       if (response.error) {
-        // Handle error or redirect to an error page
         console.error("error: " , response.error);
       } else {
         setProduct(response.data);
@@ -29,7 +37,11 @@ const ProductDescription = () => {
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex justify-center items-center h-screen w-full">
+        <GridLoader size={60} />
+      </div>
+    );
   }
 
   const handleAddToCart = () => {
@@ -47,7 +59,6 @@ const ProductDescription = () => {
 
   return (
     <div className="container mx-auto p-4">
-      {/* Render product details */}
       <div className="flex flex-wrap">
         <div className="w-full md:w-1/2">
           <img

@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../Contexts/userContext";
 import { useCart } from "../Contexts/CartContext";
+import hoodie from "../images/hoodie.png";
 
 const Navbar = () => {
   const {userInfo, setuserInfo} = useContext(UserContext);
@@ -65,7 +66,7 @@ const Navbar = () => {
               >
                 <img
                   className="h-8 w-auto"
-                  src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                  src={hoodie}
                   alt="Workflow"
                 />
               </div>

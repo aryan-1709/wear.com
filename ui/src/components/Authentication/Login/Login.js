@@ -6,6 +6,7 @@ import { useNavigate, NavLink } from "react-router-dom";
 import { UserContext } from "../../../Contexts/userContext";
 
 const path = process.env.REACT_APP_SERVER_URL;
+// const path = process.env.REACT_APP_LOCALHOST;
 
 const Login = () => {
   const { setuserInfo } = useContext(UserContext);

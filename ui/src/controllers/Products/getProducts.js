@@ -1,6 +1,7 @@
 import axios from "axios";
 // const localpath = process.env.REACT_APP_SERVER_RENDER;
-const localpath = process.env.REACT_APP_LOCALHOST;
+// const localpath = process.env.REACT_APP_LOCALHOST;
+const localpath = process.env.REACT_APP_SERVER_URL;
 
 const getProducts = async () => {
   try {

@@ -3,18 +3,8 @@ const router = express.Router();
 const {
   cartController,
   clearCart,
-  deleteItem,
-  getCartItems,
+  deleteItem
 } = require("../../Controllers/CartController/cartController");
-
-router.post("/getProductById", async (req, res) => {
-  try {
-    const resp = await getCartItems(req.body.product_id);
-    return res.json(resp);
-  } catch (error) {
-    return res.json(error);
-  }
-});
 
 router.post("/deleteItem", async (req, res) => {
   const info = req.body;
@@ -31,7 +21,9 @@ router.post("/addItem", async (req, res) => {
   const resp = await cartController(
     req.body.userId,
     req.body.product,
-    req.body.qty
+    req.body.qty,
+    req.body.size,
+    req.body.color
   );
   return res.json(resp);
 });

@@ -1,12 +1,17 @@
+import { getProductById } from "./Products/getSingleProduct";
 import axios from "axios";
 const localpath = process.env.REACT_APP_SERVER_URL;
+// const localpath = process.env.REACT_APP_SERVER_URL;
+// const localpath = process.env.REACT_APP_LOCALHOST;
 
-const cartHandler = async ({ product, userId, qty }) => {
+const cartHandler = async ({ product, userId, qty, size, color }) => {
   try {
     const res = await axios.post(`${localpath}/user/addItem`, {
       userId: userId,
       product: product._id,
       qty: qty,
+      size: size,
+      color: color
     });
     return res;
   } catch (error) {
@@ -34,15 +39,15 @@ const clearCartItems = async ({ userId }) => {
   }
 };
 
-const getProductById = async (cart) => {
+const getProducts = async (cart) => {
   let myCart = [];
   await Promise.all(
     cart.map(async (item) => {
       try {
-        const product = await axios.post(`${localpath}/user/getProductById`, {
-          product_id: item.products,
-        });
-        myCart.push({ products: product.data, qty: 1 });
+        const product = await getProductById(item.products)
+        if(product.error) console.log(product.error)
+        else
+          myCart.push({ products: product.data, qty: item.quantity,  color:item.color, size:item.size });
       } catch (error) {
         return { error: error };
       }
@@ -51,4 +56,4 @@ const getProductById = async (cart) => {
   return myCart;
 };
 
-export { cartHandler, deleteItem, getProductById, clearCartItems };
+export { cartHandler, deleteItem, getProducts, clearCartItems };

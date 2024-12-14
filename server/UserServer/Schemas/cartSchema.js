@@ -10,6 +10,16 @@ const cartSchema = new Schema({
     type: Number,
     require: true,
   },
+  size:{
+    type: Number,
+    require: true,
+    default: 0
+  },
+  color:{
+    type: Number,
+    require: true,
+    default: 0
+  }
 });
 
 const Item = mongoose.model("item", cartSchema);

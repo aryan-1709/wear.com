@@ -5,6 +5,7 @@ import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 
 const path = process.env.REACT_APP_SERVER_URL;
+// const path = process.env.REACT_APP_LOCALHOST;
 
 const Register = () => {
   const navigate = useNavigate();

@@ -3,11 +3,13 @@ const User = require("../../Schemas/UserSchema");
 const Product = require("../../../OwnerServer/schemas/productModel");
 
 //to save item into cart
-const cartController = async (userId, objectId, qty) => {
+const cartController = async (userId, objectId, qty, size, color) => {
   try {
     const item = new Item({
       products: objectId,
       quantity: qty,
+      size: size,
+      color: color
     });
     //I am not saving this product to items
     // await item.save();
@@ -50,10 +52,4 @@ const clearCart = async ({ userId }) => {
   }
 };
 
-//to get item for the cart by productId
-const getCartItems = async (product_id) => {
-  const product = await Product.findById(product_id);
-  return product;
-};
-
-module.exports = { cartController, deleteItem, clearCart, getCartItems };
+module.exports = { cartController, deleteItem, clearCart };

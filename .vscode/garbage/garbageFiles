@@ -1,0 +1,49 @@
+// const express = require('express');
+// const multer = require('multer');
+// const uploadImage = require('./uploadImage');
+// const Product = require('./schemas/productModel');
+// import {upload} from "./middlesware/middleware_multer.js";
+
+// const app = express();
+// // const upload = multer({ dest: 'uploads/' });
+
+// upload.fields({name:"productImage",maxCount:4});
+
+
+// // app.post('/upload', upload.single('file'), async (req, res) => {
+// //   try {
+// //     const result = await uploadImage(req.file.path);
+// //     res.json({ url: result.Location });
+// //   } catch (err) {
+// //     res.status(500).json({ error: 'Failed to upload image' });
+// //   }
+// // });
+
+// app.post('/products', async (req, res) => {
+//   try {
+//     const product = new Product(req.body);
+//     await product.save();
+//     res.status(201).json(product);
+//   } catch (err) {
+//     res.status(500).json({ error: 'Failed to save product' });
+//   }
+// });
+
+// const PORT = process.env.PORT || 5000;
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
+
+
+
+
+    {
+    //  import mug from "../images/mug.jpg";
+    // import keychain from "../images/keychain.jpg";
+    // import tshirt from "../images/T-shirt.jpg";
+    // import hoodie from "../images/hoodie.jpg";
+    // import orange from "../images/orange-tshirt.jpeg"
+    // import purple from "../images/purple-tshirt.jpeg"
+    // import pink from "../images/pink tshirt.jpeg"
+    // import green from "../images/green-tshirt.jpeg"
+    }
