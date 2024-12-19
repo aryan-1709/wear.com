@@ -14,6 +14,8 @@ import Login from "../components/Authentication/Login/Login";
 import Register from "../components/Authentication/Register/Register";
 import ServerErrorPage from "../pages/ServerErrorPage";
 import ContactUs from "../pages/ContactUs";
+import AboutUs from "../pages/AboutUs";
+import PaymentPage from "../pages/PaymentPage";
 
 const Routers = () => {
   const Divi = () => {
@@ -75,6 +77,8 @@ const Routers = () => {
             <Route exact path="/description/:id" element={<ProductDescription />} />
             <Route exact path="/serverError" element={<ServerErrorPage />} />
             <Route exact path="/support" element={<ContactUs />} />
+            <Route exact path="/aboutus" element={<AboutUs />} />
+            <Route exact path="/checkout" element={<PaymentPage />} />
           </Routes>
         </CartProvider>
       </BrowserRouter>

@@ -10,6 +10,24 @@ module.exports = {
   ],
   theme: {
     extend: {},
+    theme: {
+      extend: {
+        fontFamily: {},
+        fontSize: {},
+        fontWeight: {},
+        lineHeight: {},
+        letterSpacing: {},
+        borderRadius: {},
+        colors: {},
+        spacing: {},
+        width: {},
+        minWidth: {},
+        maxWidth: {},
+        height: {},
+        minHeight: {},
+        maxHeight: {},
+      },
+    },
   },
   plugins: [
     require('taos/plugin')

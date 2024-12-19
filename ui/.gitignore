@@ -23,5 +23,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-/src/images
+/src/imagess/
+/src/pages/NewPreview.js
+/src/pages/PreviewImage.js
 /src/LoginPage
+/public/tshirt.glb
+/public/tshirt2.glb
+/src/components/T-shirt

@@ -15,8 +15,8 @@ const server = http.createServer(app);
 
 app.use(bodyParser.json());
 
-server.listen(process.env.PORT, () => {
-  console.log(`server started at http://localhost:${process.env.PORT}`);
+server.listen(process.env.PORT_OWNER, () => {
+  console.log(`server started at http://localhost:${process.env.PORT_OWNER}`);
 });
 (async function connectToMongoDB() {
   try {

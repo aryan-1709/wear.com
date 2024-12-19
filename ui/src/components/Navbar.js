@@ -38,7 +38,7 @@ const Navbar = () => {
   let buttonItems = [
     { name: "Home", des: "/" },
     { name: "Products", des: "/" },
-    { name: "About", des: "/" },
+    { name: "About", des: "/aboutus" },
     { name: "Contact Us", des: "/support" },
     { name: `<${numberOfItems}>`, icon: true, des: "/cart" },
     { name: logged, color: true, des: `${des}` },

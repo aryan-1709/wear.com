@@ -1,5 +1,5 @@
 import axios from "axios";
-const locapath = process.env.REACT_APP_SERVER_URL;
+const locapath = process.env.REACT_APP_LOCALHOST_OWNER;
 
 const ProductUploader = async (file) =>{
     try {

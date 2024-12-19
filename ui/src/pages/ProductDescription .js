@@ -1,33 +1,36 @@
-import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import React, { useState, useEffect, useContext } from "react";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../Contexts/CartContext";
-import { getProductById } from "../controllers/Products/getSingleProduct"; 
-import {GridLoader} from "react-spinners"
+import { getProductById } from "../controllers/Products/getSingleProduct";
+import { GridLoader } from "react-spinners";
+import PreviewImage from "./PreviewImage";
 
 const ProductDescription = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const data = location.state;
   const { id } = useParams(); // Retrieve the _id from the URL
   const { addToCart } = useCart();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedSize, setSelectedSize] = useState(0);
   const [selectedColor, setSelectedColor] = useState(0);
   const [review, setReview] = useState("");
   const [reviews, setReviews] = useState([]);
+  const [qty, setQty] = useState(1);
   const [state, setState] = useState("Add To Cart");
   useEffect(() => {
-    if(data){
+    if (data) {
       setSelectedSize(data.size);
       setSelectedColor(data.color);
     }
-  }, [data])
-  
+  }, [data]);
+
   useEffect(() => {
     const fetchProduct = async () => {
       const response = await getProductById(id);
       if (response.error) {
-        console.error("error: " , response.error);
+        console.error("error: ", response.error);
       } else {
         setProduct(response.data);
       }
@@ -49,23 +52,40 @@ const ProductDescription = () => {
     setTimeout(() => {
       setState("Add To Cart");
     }, 500);
-    addToCart({product:product, selectedSize:selectedSize, selectedImage:selectedImage, selectedColor:selectedColor});
+    addToCart({
+      product: product,
+      selectedSize: selectedSize,
+      selectedImage: selectedImage,
+      selectedColor: selectedColor,
+    });
   };
+
+  const handleBuyNow = async (e) => {
+    navigate("/checkout", { state : { products: [{id:id, qty:qty, color:selectedColor, size:selectedSize}] } });
+  }
 
   const handleReviewSubmit = () => {
     setReviews([...reviews, review]);
     setReview("");
   };
 
+  const handlePreview = (images) => {
+    console.log("Clicked")
+    return(
+      <PreviewImage images={images}/>
+    )
+  }
+
   return (
     <div className="container mx-auto p-4">
       <div className="flex flex-wrap">
-        <div className="w-full md:w-1/2">
+        <div className="w-full md:w-1/2 ">
           <img
+            onClick={()=>handlePreview(product.listImages[selectedColor])}
             loading="lazy"
             src={product.listImages[selectedColor][selectedImage]}
             alt="Product"
-            className="w-[550px] h-[550px] rounded-lg"
+            className="w-[550px] h-[550px] rounded-lg border-black border-2 p-5 hover:cursor-pointer"
           />
           <div className="flex mt-4">
             {product.listImages[selectedColor].map((image, index) => (
@@ -129,6 +149,12 @@ const ProductDescription = () => {
               onClick={handleAddToCart}
             >
               {state}
+            </button>
+            <button
+              className="bg-green-500 text-white px-6 py-3 rounded-lg mr-2"
+              onClick={handleBuyNow}
+            >
+              Buy Now
             </button>
           </div>
         </div>

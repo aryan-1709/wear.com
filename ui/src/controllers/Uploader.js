@@ -1,5 +1,5 @@
 import axios from "axios";
-const localpath = process.env.REACT_APP_SERVER_URL;
+const localpath = process.env.REACT_APP_LOCALHOST_OWNER;
 
 const Uploader = async (file) => {
   try {
