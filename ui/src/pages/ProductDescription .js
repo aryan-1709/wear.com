@@ -3,7 +3,7 @@ import { useLocation, useParams, useNavigate } from "react-router-dom";
 import { useCart } from "../Contexts/CartContext";
 import { getProductById } from "../controllers/Products/getSingleProduct";
 import { GridLoader } from "react-spinners";
-import PreviewImage from "./PreviewImage";
+// import PreviewImage from "./PreviewImage";
 
 const ProductDescription = () => {
   const location = useLocation();
@@ -71,9 +71,9 @@ const ProductDescription = () => {
 
   const handlePreview = (images) => {
     console.log("Clicked")
-    return(
-      <PreviewImage images={images}/>
-    )
+    // return(
+    //   // <PreviewImage images={images}/>
+    // )
   }
 
   return (
