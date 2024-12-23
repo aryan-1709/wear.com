@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import { placeOrder } from '../controllers/Payment/placeOrder';
 
 const PaymentPage = () => {
     const location = useLocation();
@@ -61,7 +62,8 @@ const PaymentPage = () => {
   };
 
   const handleRazorpayPayment = async () => {
-    
+    const res = await placeOrder(formData, location.state.products);
+    console.log(res);
   };
 
   const handleCODOrder = () => {

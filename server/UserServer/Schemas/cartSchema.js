@@ -6,7 +6,7 @@ const cartSchema = new Schema({
     type: Schema.Types.ObjectId,
     require: true,
   },
-  quantity: {
+  qty: {
     type: Number,
     require: true,
   },
@@ -19,6 +19,10 @@ const cartSchema = new Schema({
     type: Number,
     require: true,
     default: 0
+  },
+  imageToPrint:{
+    type:String,
+    default:"#"
   }
 });
 

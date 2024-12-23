@@ -5,6 +5,8 @@ import React from 'react';
 // import Payment from './Payment';
 // import NewPreview from './pages/NewPreview';
 // import PaymentPage from './pages/PaymentPage';
+// import UserProfileDrawer from './components/UserProfile/UserProfileDrawer';
+// import ImageUpload from './OwnerUI/ImageUpload';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';

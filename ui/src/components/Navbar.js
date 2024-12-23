@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { UserContext } from "../Contexts/userContext";
 import { useCart } from "../Contexts/CartContext";
 import hoodie from "../images/hoodie.png";
+import UserProfileDrawer from "./UserProfile/UserProfileDrawer";
 
 const Navbar = () => {
   const {userInfo, setuserInfo} = useContext(UserContext);
@@ -10,6 +11,7 @@ const Navbar = () => {
   const [logged, setLogged] = useState("Login/Signup");
   const [des, setdes] = useState("/login")
   const [numberOfItems, setNumberOfItems] = useState(0)
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     if(userInfo){
@@ -42,6 +44,7 @@ const Navbar = () => {
     { name: "Contact Us", des: "/support" },
     { name: `<${numberOfItems}>`, icon: true, des: "/cart" },
     { name: logged, color: true, des: `${des}` },
+    {name: "Profile"}
   ];
 
   const handleOnclick = (path, item) => {
@@ -53,6 +56,8 @@ const Navbar = () => {
     } else
     navigate(path, { state: { msg: item } });
   };
+
+  const toggleDrawer = () =>  setOpen(!open);
 
   return (
     <div>
@@ -82,7 +87,7 @@ const Navbar = () => {
               {buttonItems.map((item, index) => (
                 <button
                   onClick={() => {
-                    handleOnclick(item.des);
+                    item.des ? handleOnclick(item.des) : toggleDrawer();
                   }}
                   key={index}
                   className={`text-gray-300 ${
@@ -97,6 +102,7 @@ const Navbar = () => {
                   )}
                 </button>
               ))}
+              {open ? <UserProfileDrawer open={open} toggleDrawer={toggleDrawer}/> : null}
             </div>
           </div>
         </div>

@@ -15,7 +15,9 @@ const ImageUpload = () => {
 
     const formData = new FormData();
     formData.append('image', selectedFile);
-    setUploadStatus(Uploader(formData));
+    console.log("formData",formData)
+    const res = await Uploader(formData);
+    console.log(res);
   };
 
   return (

@@ -7,17 +7,16 @@ const cartController = async (userId, objectId, qty, size, color) => {
   try {
     const item = new Item({
       products: objectId,
-      quantity: qty,
+      qty: qty,
       size: size,
-      color: color
+      color: color,
     });
-    //I am not saving this product to items
-    // await item.save();
-    await User.findById(userId).then(async (user) => {
-      user.cart.push(item);
-      await user.save();
-    });
-    return "Item saved to cart";
+    //I am not saving this product to items ---> But now I am Guess Why
+    const user = await User.findById(userId);
+    if (!user) return { msg: "User not found" };
+    user.cart.push(item);
+    await user.save();
+    return { msg: "Item saved to cart", data: item };
   } catch (error) {
     return { "Cannot save Item": error };
   }
@@ -52,4 +51,23 @@ const clearCart = async ({ userId }) => {
   }
 };
 
-module.exports = { cartController, deleteItem, clearCart };
+//to add Image
+const addOrUpdateImage = async ({ userId, cartId, imgUrl }) => {
+  try {
+    const user = await User.findById(userId);
+    const cartItem = user.cart.find(
+      (item) => item._id.toString() === cartId.toString()
+    );
+    if (cartItem) {
+      cartItem.imageToPrint = imgUrl;
+      await user.save();
+      return { status: 200, msg: "Added ImageUri" };
+    } else {
+      return { status: 200, msg: "Not found in cart" };
+    }
+  } catch (error) {
+    return { status: 500, error: error };
+  }
+};
+
+module.exports = { cartController, deleteItem, clearCart, addOrUpdateImage };

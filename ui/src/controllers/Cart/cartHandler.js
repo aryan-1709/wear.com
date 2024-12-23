@@ -1,4 +1,5 @@
-import { getProductById } from "./Products/getSingleProduct";
+import {Uploader} from "../Uploader"
+import { getProductById } from "../Products/getSingleProduct";
 import axios from "axios";
 const localpath = process.env.REACT_APP_SERVER_URL;
 // const localpath = process.env.REACT_APP_SERVER_URL;
@@ -47,7 +48,7 @@ const getProducts = async (cart) => {
         const product = await getProductById(item.products)
         if(product.error) console.log(product.error)
         else
-          myCart.push({ products: product.data, qty: item.quantity,  color:item.color, size:item.size });
+          myCart.push({ products: product.data, qty: item.quantity,  color:item.color, size:item.size, _id:item._id, imageToPrint:item.imageToPrint });
       } catch (error) {
         return { error: error };
       }
@@ -56,4 +57,16 @@ const getProducts = async (cart) => {
   return myCart;
 };
 
-export { cartHandler, deleteItem, getProducts, clearCartItems };
+//adding Images
+const addOrUpdateImageController = async ({userId, cartId, formData}) => {
+  try {
+    const img = await Uploader(formData);
+    const imgUrl = img.data;
+    const res = await axios.post(`${localpath}/user/addOrUpdateImage`, {userId, cartId, imgUrl});
+    return res;
+  } catch (error) {
+    return error;
+  }
+}
+
+export { cartHandler, deleteItem, getProducts, clearCartItems, addOrUpdateImageController};

@@ -6,7 +6,8 @@ import {
   deleteItem,
   getProducts,
   clearCartItems,
-} from "../controllers/cartHandler";
+  addOrUpdateImageController
+} from "../controllers/Cart/cartHandler";
 
 const CartContext = createContext();
 
@@ -50,7 +51,8 @@ export const CartProvider = ({ children }) => {
       if (res.error) {
         navigate("/serverError");
       }
-      setCart((prevCart) => [...prevCart, { products: product, qty: 1, color: selectedColor, size:  selectedSize}]);
+      const data = res.data.data;
+      setCart((prevCart) => [...prevCart, { products: product, qty: data.qty, color: data.color, size:  data.size, _id:data._id, imageToPrint:data.imageToPrint}]);
     }
   };
 
@@ -74,6 +76,13 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
+  const addOrUpdateImage = async ({cartId, formData}) => {
+    const res = await addOrUpdateImageController({userId: userInfo._id, cartId, formData});
+    if(res.error) {
+      navigate("/serverError");
+    }
+  }
+
   const totalPrice = cart.reduce(
     (total, item) => total + item.products.price,
     0
@@ -81,7 +90,7 @@ export const CartProvider = ({ children }) => {
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, totalPrice }}
+      value={{ cart, addToCart, removeFromCart, clearCart, totalPrice, addOrUpdateImage }}
     >
       {children}
     </CartContext.Provider>

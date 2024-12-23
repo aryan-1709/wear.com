@@ -3,7 +3,8 @@ const router = express.Router();
 const {
   cartController,
   clearCart,
-  deleteItem
+  deleteItem, 
+  addOrUpdateImage
 } = require("../../Controllers/CartController/cartController");
 
 router.post("/deleteItem", async (req, res) => {
@@ -27,5 +28,10 @@ router.post("/addItem", async (req, res) => {
   );
   return res.json(resp);
 });
+
+router.post("/addOrUpdateImage", async (req, res) => {
+  const resp = await addOrUpdateImage(req.body);
+  res.json(resp);
+})
 
 module.exports = router;

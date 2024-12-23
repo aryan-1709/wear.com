@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Contexts/CartContext";
-import {GridLoader} from "react-spinners"
+import { GridLoader } from "react-spinners";
 
 const CartPage = () => {
   const navigate = useNavigate();
-  const { cart, removeFromCart, clearCart, totalPrice } = useCart();
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [isUploading, setIsUploading] = useState(false); // Prevent multiple submissions
+  const { cart, removeFromCart, clearCart, totalPrice, addOrUpdateImage } =
+    useCart();
+
   const handleDescription = (item, color, size) => {
-    // navigate(`/description/${item._id}`, { state: { item: item } });
-    navigate(`/description/${item._id}`, { state: {color:color, size:size}});
+    navigate(`/description/${item._id}`, {
+      state: { color: color, size: size },
+    });
   };
 
   if (!cart) {
@@ -18,6 +23,28 @@ const CartPage = () => {
       </div>
     );
   }
+  const handleAddImage = async (cartId, event, index) => {
+    event.preventDefault();
+    if (isUploading) return;
+    if (!selectedFile) {
+      return alert("Please select an image before submitting.");
+    }
+    setIsUploading(true);
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    try {
+      await addOrUpdateImage({ cartId, formData });
+      cart[index].imageToPrint = "some Image"
+      setIsUploading(false); 
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      setIsUploading(false); 
+    }
+  };
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+  };
 
   return (
     <div className="container mx-auto p-4">
@@ -33,7 +60,12 @@ const CartPage = () => {
                   key={index}
                   className="flex items-center justify-between py-4"
                 >
-                  <div className="flex items-center hover:cursor-pointer" onClick={()=>{handleDescription(item.products, item.color, item.size)}}>
+                  <div
+                    className="flex items-center hover:cursor-pointer"
+                    onClick={() => {
+                      handleDescription(item.products, item.color, item.size);
+                    }}
+                  >
                     <img
                       loading="lazy"
                       src={item.products.listImages[item.color][0]}
@@ -41,25 +73,47 @@ const CartPage = () => {
                       className="w-16 h-16 object-cover rounded-lg"
                     />
                     <div className="ml-4">
-                      <h3 className="text-lg font-bold">
-                        {item.products.name}
-                      </h3>
+                      <h3 className="text-lg font-bold">{item.products.name}</h3>
                       <p className="text-gray-500">₹{item.products.price}</p>
                     </div>
                   </div>
-                  <button
-                    onClick={() => removeFromCart(item.products)}
-                    className="px-4 py-2 bg-red-500 text-white rounded-md"
-                  >
-                    Remove
-                  </button>
+                  <div className="flex items-center justify-between">
+                    <form
+                      onSubmit={(e) => handleAddImage(item._id, e, index)}
+                      className="mr-3"
+                    >
+                      <input
+                        type="file"
+                        id="file-input"
+                        onChange={handleFileChange}
+                        className="hidden"
+                      />
+                      <label
+                        htmlFor="file-input"
+                        className="px-4 py-2.5 bg-blue-500 text-white rounded-md cursor-pointer focus:outline-none hover:bg-blue-600 mr-1"
+                      >
+                        {item.imageToPrint !== "#" ? "Change" : "Upload"}
+                      </label>
+                      <button
+                        type="submit"
+                        className="px-4 py-2 bg-green-500 text-white rounded-md cursor-pointer focus:outline-none hover:bg-green-600"
+                        disabled={isUploading} // Disable button during upload
+                      >
+                        {isUploading ? "Uploading..." : <i className="fas fa-cloud-upload-alt"></i>}
+                      </button>
+                    </form>
+                    <button
+                      onClick={() => removeFromCart(item.products)}
+                      className="px-4 py-2 bg-red-500 text-white rounded-md"
+                    >
+                      Remove
+                    </button>
+                  </div>
                 </li>
               ))}
             </ul>
             <div className="mt-4 flex items-center justify-between">
-              <p className="text-xl font-bold">
-                Total: ₹{totalPrice.toFixed(2)}
-              </p>
+              <p className="text-xl font-bold">Total: ₹{totalPrice.toFixed(2)}</p>
               <div>
                 <button
                   onClick={clearCart}

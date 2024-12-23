@@ -20,6 +20,7 @@ const cartRoute = require("./Routes/CartRoutes/cartControllerRoute");
 const support = require("./Routes/Support/enquiry");
 const checkout = require('./Routes/Orders/checkout')
 const validate = require('./Routes/Orders/validate')
+const placeOrder = require('./Routes/Orders/placeOrder');
 
 //env variables
 const PORT = process.env.PORT || 3000;
@@ -40,6 +41,8 @@ app.use("/user", cartRoute);
 app.use("/user", support);
 app.use('/order', checkout);
 app.use('/order', validate)
+app.use('/order', placeOrder);
+
 
 app.listen(process.env.PORT, () => {
   console.log(`Server Started http://localhost:${PORT}`);
