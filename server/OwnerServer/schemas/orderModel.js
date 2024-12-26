@@ -4,9 +4,12 @@ const Schema = mongoose.Schema;
 const OrderSchema = new Schema({
   products: {
     type: [
-      { id: Schema.Types.ObjectId, qty: Number, color: Number, size: Number },
+      { id: Schema.Types.ObjectId, qty: Number, color: Number, size: Number, imgUrl: String },
     ],
     require: true,
+  },
+  cId:{
+    type: Schema.Types.ObjectId  //customer ID
   },
   name: {
     type: String,
@@ -27,10 +30,19 @@ const OrderSchema = new Schema({
     type: String,
   },
   tamt: {
-    type: Number,
+    type: Number,//transaction amount
   },
+  city:{
+    type:String
+  },
+  state:{
+    type:String
+  },
+  pincode:{
+    type:Number
+  }
 });
 
-const Order = mongoose.Model("order", OrderSchema);
+const Order = mongoose.model("order", OrderSchema);
 
 module.exports = Order;
