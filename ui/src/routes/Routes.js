@@ -16,6 +16,7 @@ import ServerErrorPage from "../pages/ServerErrorPage";
 import ContactUs from "../pages/ContactUs";
 import AboutUs from "../pages/AboutUs";
 import PaymentPage from "../pages/PaymentPage";
+import Orders from "../pages/Orders";
 
 const Routers = () => {
   const Divi = () => {
@@ -79,6 +80,7 @@ const Routers = () => {
             <Route exact path="/support" element={<ContactUs />} />
             <Route exact path="/aboutus" element={<AboutUs />} />
             <Route exact path="/checkout" element={<PaymentPage />} />
+            <Route exact path="/orders" element={<Orders />} />
           </Routes>
         </CartProvider>
       </BrowserRouter>

@@ -1,16 +1,7 @@
 const Order = require('../../../OwnerServer/schemas/orderModel');
-
-// name: '',
-//     email: '',
-//     phone: '',
-//     address: '',
-//     city: '',
-//     state: '',
-//     pincode: '',
-//     paymentMethod: '',
+const User = require('../../Schemas/UserSchema');
 
 const handlePlaceOrder = async ({formData, products}) => {
-    console.log("placeOrder ", {formData, products});
     const newOrder = new Order({
         products:products,
         name:formData.name,
@@ -19,10 +10,25 @@ const handlePlaceOrder = async ({formData, products}) => {
         city:formData.city,
         state:formData.state,
         picode:formData.pincode,
-        
+        cId:formData.cId,
+        pImg:formData.pImg
     });
     const res = await newOrder.save();
-    console.log(res);
+    try {
+        const user = await User.findById(formData.cId);
+        if(user){
+            user.purchasedItems.push(newOrder);
+            await user.save();
+            // console.log("user updated");
+        }
+        else{
+            // console.log("No user found")
+            return {error: "Could't find user"};
+        }
+    } catch (error) {
+        // console.log("Error occured", error);
+        return {error: error};
+    }
     return res;
 }
 

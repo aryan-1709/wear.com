@@ -23,7 +23,7 @@ const userSchema = new Schema({
         default:[]
     },
     purchasedItems:{
-        type:[Buy.schema],
+        type:[Schema.Types.ObjectId],
         default:[]
     },
     support:{

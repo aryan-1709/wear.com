@@ -63,9 +63,9 @@ const addOrUpdateImageController = async ({userId, cartId, formData}) => {
     const img = await Uploader(formData);
     const imgUrl = img.data;
     const res = await axios.post(`${localpath}/user/addOrUpdateImage`, {userId, cartId, imgUrl});
-    return res;
+    return {res, imgUrl};
   } catch (error) {
-    return error;
+    return {res:{error:"error"}};
   }
 }
 

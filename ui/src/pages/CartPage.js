@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCart } from "../Contexts/CartContext";
 import { GridLoader } from "react-spinners";
@@ -16,6 +16,9 @@ const CartPage = () => {
     });
   };
 
+  // useEffect(() => {
+  //   console.log(cart);
+  // }, [cart])
   if (!cart) {
     return (
       <div className="flex justify-center items-center h-screen w-full">
@@ -23,6 +26,9 @@ const CartPage = () => {
       </div>
     );
   }
+
+  
+
   const handleAddImage = async (cartId, event, index) => {
     event.preventDefault();
     if (isUploading) return;
@@ -33,8 +39,8 @@ const CartPage = () => {
     const formData = new FormData();
     formData.append("image", selectedFile);
     try {
-      await addOrUpdateImage({ cartId, formData });
-      cart[index].imageToPrint = "some Image"
+      const imgUrl = await addOrUpdateImage({ cartId, formData });
+      cart[index].imageToPrint = imgUrl;
       setIsUploading(false); 
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -45,6 +51,20 @@ const CartPage = () => {
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
   };
+
+  const handleCheckOut = async () => {
+    const products = [];
+    let pos = true;
+    await cart.map((item) => {
+      if(item.imageToPrint === "#"){
+        alert("First add images to print and then place Order");
+        pos=!pos;
+        return;
+      }
+      products.push({id:item.products._id, qty:item.qty, color:item.color, size:item.size, imgUrl:item.imageToPrint, pImg:item.products.listImages[item.color][0]});
+    });
+    if(pos) navigate("/checkout", { state : products });
+  }
 
   return (
     <div className="container mx-auto p-4">
@@ -122,7 +142,7 @@ const CartPage = () => {
                   Clear Cart
                 </button>
                 <button
-                  onClick={() => alert("Proceeding to checkout...")}
+                  onClick={() => handleCheckOut()}
                   className="px-4 py-2 bg-green-500 text-white rounded-md"
                 >
                   Checkout

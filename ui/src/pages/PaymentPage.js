@@ -1,13 +1,18 @@
-import React, { useEffect, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { placeOrder } from '../controllers/Payment/placeOrder';
+import { useCart } from "../Contexts/CartContext";
+import { UserContext } from '../Contexts/userContext';
 
 const PaymentPage = () => {
+    const navigate = useNavigate();
     const location = useLocation();
-
-    useEffect(() => {
-      console.log(location.state);
-    }, [location.state])
+    const { totalPrice } =
+        useCart();
+    const {userInfo}  = useContext(UserContext);
+    // useEffect(() => {
+    //   console.log(location.state);
+    // }, [location.state])
     
 
   const [formData, setFormData] = useState({
@@ -19,6 +24,7 @@ const PaymentPage = () => {
     state: '',
     pincode: '',
     paymentMethod: '',
+    cId:userInfo._id
   });
 
   const [errors, setErrors] = useState({});
@@ -60,10 +66,26 @@ const PaymentPage = () => {
       }
     }
   };
-
+  
   const handleRazorpayPayment = async () => {
-    const res = await placeOrder(formData, location.state.products);
-    console.log(res);
+    const res = await placeOrder({formData, products:location.state, totalPrice, userInfo})
+    if(res.msg === "success"){
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        state: '',
+        pincode: '',
+        paymentMethod: '',
+        cId:userInfo._id
+      })
+      navigate("/orders");
+    }
+    else{
+      alert("Transaction failed please checkout after some time.")
+    }
   };
 
   const handleCODOrder = () => {

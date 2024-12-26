@@ -1,16 +1,23 @@
 {
-    "version": 2,
-    "builds": [
-      {
-        "src": "UserServer/server.js",
-        "use": "@vercel/node"
-      }
-    ],
-    "routes": [
-      {
-        "src": "/(.*)",
-        "dest": "UserServer/server.js"
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    {
+      "src": "UserServer/server.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "OwnerServer/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/user/(.*)",
+      "dest": "UserServer/server.js"
+    },
+    {
+      "src": "/owner/(.*)",
+      "dest": "OwnerServer/server.js"
+    }
+  ]
+}

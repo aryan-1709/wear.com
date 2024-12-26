@@ -21,6 +21,7 @@ const support = require("./Routes/Support/enquiry");
 const checkout = require('./Routes/Orders/checkout')
 const validate = require('./Routes/Orders/validate')
 const placeOrder = require('./Routes/Orders/placeOrder');
+const getOrders = require('./Routes/Orders/getOrders')
 
 //env variables
 const PORT = process.env.PORT || 3000;
@@ -42,6 +43,7 @@ app.use("/user", support);
 app.use('/order', checkout);
 app.use('/order', validate)
 app.use('/order', placeOrder);
+app.use('/order', getOrders);
 
 
 app.listen(process.env.PORT, () => {

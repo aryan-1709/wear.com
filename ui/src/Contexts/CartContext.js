@@ -78,9 +78,12 @@ export const CartProvider = ({ children }) => {
 
   const addOrUpdateImage = async ({cartId, formData}) => {
     const res = await addOrUpdateImageController({userId: userInfo._id, cartId, formData});
-    if(res.error) {
+    if(res.res.error) {
       navigate("/serverError");
+      return "#";
     }
+    else
+      return res.imgUrl;
   }
 
   const totalPrice = cart.reduce(
