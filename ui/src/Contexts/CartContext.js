@@ -6,7 +6,8 @@ import {
   deleteItem,
   getProducts,
   clearCartItems,
-  addOrUpdateImageController
+  addOrUpdateImageController,
+  updateQuantity
 } from "../controllers/Cart/cartHandler";
 
 const CartContext = createContext();
@@ -37,14 +38,14 @@ export const CartProvider = ({ children }) => {
     }
   }, [userInfo]);
 
-  const addToCart = async ({product, selectedSize, selectedImage, selectedColor}) => {
+  const addToCart = async ({product, selectedSize, selectedImage,selectedColor, qty }) => {
     if (!userInfo) {
       navigate("/login");
     } else if (!cart.includes(product)) {
       const res = await cartHandler({
         product: product,
         userId: userInfo._id,
-        qty: 1,
+        qty,
         size: selectedSize, 
         color: selectedColor
       });
@@ -52,7 +53,18 @@ export const CartProvider = ({ children }) => {
         navigate("/serverError");
       }
       const data = res.data.data;
-      setCart((prevCart) => [...prevCart, { products: product, qty: data.qty, color: data.color, size:  data.size, _id:data._id, imageToPrint:data.imageToPrint}]);
+      console.log("data ",res)
+      setCart((prevCart) => [
+        ...prevCart,
+        {
+          products: product,
+          qty: data.qty,
+          color: data.color,
+          size: data.size,
+          _id: data._id,
+          imageToPrint: data.imageToPrint,
+        },
+      ]);
     }
   };
 
@@ -76,26 +88,67 @@ export const CartProvider = ({ children }) => {
     setCart([]);
   };
 
-  const addOrUpdateImage = async ({cartId, formData}) => {
-    const res = await addOrUpdateImageController({userId: userInfo._id, cartId, formData});
-    if(res.res.error) {
+  const addOrUpdateImage = async ({ cartId, formData }) => {
+    const res = await addOrUpdateImageController({
+      userId: userInfo._id,
+      cartId,
+      formData,
+    });
+    if (res.res.error) {
       navigate("/serverError");
       return "#";
-    }
-    else
+    } else {
       return res.imgUrl;
-  }
+    }
+  };
+
+  // Update quantity of an item in the cart
+  const updateCartQuantity = async ({ cartId, newQuantity}) => {
+    if (!userInfo) return; // Handle case where user is not logged in
+    
+    console.log(cartId, newQuantity);
+
+    // Update quantity on server-side
+    const res = await updateQuantity({
+      cartId, // Pass product object with _id
+      userId: userInfo._id,
+      newQuantity
+    });
+  
+    if (res.error) {
+      console.error("Error updating quantity:", res.error);
+      return; // Handle error gracefully
+    }
+  
+    // Update cart state locally if successful
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item._id === cartId
+          ? { ...item, qty: newQuantity }
+          : item
+      )
+    );
+  };
+  
 
   const totalPrice = cart.reduce(
-    (total, item) => total + item.products.price,
+    (total, item) => total + (item.products ? item.products.price * item.qty : 0),
     0
   );
 
   return (
     <CartContext.Provider
-      value={{ cart, addToCart, removeFromCart, clearCart, totalPrice, addOrUpdateImage }}
+      value={{
+        cart,
+        addToCart,
+        removeFromCart,
+        clearCart,
+        totalPrice,
+        addOrUpdateImage,
+        updateQuantity:updateCartQuantity,
+      }}
     >
       {children}
     </CartContext.Provider>
-  );
-};
+     );
+    };

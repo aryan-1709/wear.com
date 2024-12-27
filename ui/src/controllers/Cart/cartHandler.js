@@ -45,10 +45,12 @@ const getProducts = async (cart) => {
   await Promise.all(
     cart.map(async (item) => {
       try {
-        const product = await getProductById(item.products)
-        if(product.error) console.log(product.error)
-        else
-          myCart.push({ products: product.data, qty: item.quantity,  color:item.color, size:item.size, _id:item._id, imageToPrint:item.imageToPrint });
+        if(item.products){
+          const product = await getProductById(item.products)
+          if(product.error) console.log(product.error)
+          else
+            myCart.push({ products: product.data, qty: item.qty,  color:item.color, size:item.size, _id:item._id, imageToPrint:item.imageToPrint });
+        }
       } catch (error) {
         return { error: error };
       }
@@ -69,4 +71,13 @@ const addOrUpdateImageController = async ({userId, cartId, formData}) => {
   }
 }
 
-export { cartHandler, deleteItem, getProducts, clearCartItems, addOrUpdateImageController};
+const updateQuantity = async ({cartId, userId, newQuantity}) => {
+  const res = await axios.post(`${localpath}/user/updateItemQuantity`, {
+    userId,
+    cartId,
+    newQuantity
+  });
+  return res;
+}
+
+export { cartHandler, deleteItem, getProducts, clearCartItems, addOrUpdateImageController, updateQuantity};

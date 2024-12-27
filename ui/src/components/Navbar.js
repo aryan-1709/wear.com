@@ -35,6 +35,7 @@ const Navbar = () => {
     { name: "Products", des: "/" },
     { name: "About", des: "/aboutus" },
     { name: "Contact Us", des: "/support" },
+    { name: "Policies", des: '/policies'},
     { 
       name: "Cart",
       icon: <ShoppingCart className="w-5 h-5" />,
@@ -94,14 +95,14 @@ const Navbar = () => {
   return (
     <div>
       {/* Main Navbar */}
-      <nav className="fixed top-0 z-10 w-full bg-gray-800 shadow-lg">
+      <nav className="fixed top-0 z-20 w-full bg-gray-800 shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="relative flex items-center justify-between h-16">
             {/* Mobile menu button */}
-            <div className="flex items-center max-[1005px]:block hidden">
+            <div className="flex items-center">
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white mr-4"
                 aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
@@ -139,7 +140,7 @@ const Navbar = () => {
                   />
                 </div>
                 {searchQuery && (
-                  <div className="absolute mt-1 w-full bg-white rounded-md shadow-lg">
+                  <div className="absolute mt-1 bg-white rounded-md shadow-lg">
                     {filteredItems.length > 0 ? (
                       <ul className="max-h-60 rounded-md py-1 text-base leading-6 overflow-auto focus:outline-none sm:text-sm sm:leading-5">
                         {filteredItems.map((item, index) => (
@@ -191,7 +192,7 @@ const Navbar = () => {
         </div>
 
         {/* Mobile menu */}
-        <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} min-[1006px]:hidden`}>
+        <div className={`${isMobileMenuOpen ? 'block w-[300px]' : 'hidden'} `}>
           <div className="px-2 pt-2 pb-3 space-y-1">
             {buttonItems.map((item, index) => (
               <button
@@ -224,7 +225,7 @@ const Navbar = () => {
               <button
                 key={index}
                 onClick={() => handleSearch(item)}
-                className="text-gray-300 whitespace-nowrap hover:bg-gray-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium transition duration-150 ease-in-out"
+                className="text-gray-300 whitespace-nowrap hover:bg-gray-600 hover:text-white px-3 py-2 my-1 rounded-md text-sm font-semibold transition duration-150 ease-in-out"
               >
                 {item}
               </button>

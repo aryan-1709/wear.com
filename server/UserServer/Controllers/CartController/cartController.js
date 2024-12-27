@@ -22,52 +22,89 @@ const cartController = async (userId, objectId, qty, size, color) => {
   }
 };
 
-//to delete single item from the cart
-const deleteItem = async ({ userId, objectId, qty }) => {
+// Delete item from the cart
+const deleteItem = async ({ userId, objectId }) => {
   try {
-    await User.findById(userId).then(async (user) => {
-      const new_cart = user.cart.filter(
-        (item) => item.products._id.toString() !== objectId.toString()
-      );
-      user.cart = new_cart;
-      await user.save();
-    });
-    return "Sucess";
+    const user = await User.findById(userId);
+    if (!user) return { msg: "User not found" };
+
+    user.cart = user.cart.filter(
+      (item) => item.products.toString() !== objectId.toString()
+    );
+
+    await user.save();
+    return { msg: "Item deleted successfully", cart: user.cart };
   } catch (error) {
-    return { msg: "Something went Wrong", error: error };
+    return { msg: "Something went wrong", error: error };
   }
 };
 
-//to clear cart
+// Clear cart
 const clearCart = async ({ userId }) => {
   try {
-    await User.findById(userId).then(async (user) => {
-      user.cart = [];
-      await user.save();
-      return "Cart Cleared";
-    });
+    const user = await User.findById(userId);
+    if (!user) return { msg: "User not found" };
+
+    user.cart = [];
+    await user.save();
+    return { msg: "Cart cleared successfully" };
   } catch (error) {
-    return { msg: "Something went Wrong", error: error };
+    return { msg: "Something went wrong", error: error };
   }
 };
 
-//to add Image
+// Add or update image
 const addOrUpdateImage = async ({ userId, cartId, imgUrl }) => {
   try {
     const user = await User.findById(userId);
+    if (!user) return { msg: "User not found" };
     const cartItem = user.cart.find(
       (item) => item._id.toString() === cartId.toString()
     );
     if (cartItem) {
       cartItem.imageToPrint = imgUrl;
       await user.save();
-      return { status: 200, msg: "Added ImageUri" };
+      return { msg: "Image added/updated successfully", cart: user.cart };
     } else {
-      return { status: 200, msg: "Not found in cart" };
+      return { msg: "Item not found in cart" };
     }
   } catch (error) {
-    return { status: 500, error: error };
+    return { error: "Cannot add/update image", details: error };
   }
 };
 
-module.exports = { cartController, deleteItem, clearCart, addOrUpdateImage };
+// Update quantity of a specific item in the cart
+const updateItemQuantity = async ({userId, cartId, newQuantity}) => {
+  try {
+    const user = await User.findById(userId);
+    if (!user) return { msg: "User not found" };
+
+    const itemIndex = user.cart.findIndex(
+      (item) =>
+        item._id.toString() === cartId.toString()
+    );
+    if (itemIndex > -1) {
+      user.cart[itemIndex].qty = newQuantity;
+
+      if (newQuantity <= 0) {
+        user.cart.splice(itemIndex, 1);
+      }
+
+      await user.save();
+      return { msg: "Item quantity updated", cart: user.cart };
+    } else {
+      return { msg: "Item not found in cart" };
+    }
+  } catch (error) {
+    return { error: "Cannot update item quantity", details: error };
+  }
+};
+
+
+module.exports = {
+  cartController,
+  updateItemQuantity,
+  deleteItem,
+  clearCart,
+  addOrUpdateImage,
+};

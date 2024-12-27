@@ -72,8 +72,13 @@ const Login = () => {
   }, [formErrors, isSubmit, navigate, setuserInfo, user]);
   return (
     <div className={`${loginstyle.login} w-full`}>
+      <div>
+        <strong className="underline"> Dummy email id:</strong><div className="inline-block"> dummy@xyz.com</div>
+        <br></br>
+        <strong className="underline"> Dummy passoword:</strong><div className="inline-block"> 123abc</div>
+      </div>
       <form>
-        <h1>Login</h1>
+        <di className="font-extrabold text-[25px]">Login</di>
         <input
           type="email"
           name="email"

@@ -17,6 +17,7 @@ import ContactUs from "../pages/ContactUs";
 import AboutUs from "../pages/AboutUs";
 import PaymentPage from "../pages/PaymentPage";
 import Orders from "../pages/Orders";
+import Policies from "../pages/Policies";
 
 const Routers = () => {
   const Divi = () => {
@@ -81,6 +82,7 @@ const Routers = () => {
             <Route exact path="/aboutus" element={<AboutUs />} />
             <Route exact path="/checkout" element={<PaymentPage />} />
             <Route exact path="/orders" element={<Orders />} />
+            <Route exact path="/policies" element={<Policies />} />
           </Routes>
         </CartProvider>
       </BrowserRouter>

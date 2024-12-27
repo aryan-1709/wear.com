@@ -1,4 +1,5 @@
-const localpath = process.env.REACT_APP_LOCALHOST;
+// const localpath = process.env.REACT_APP_LOCALHOST;
+const localpath = process.env.REACT_APP_SERVER_URL;
 const RAZORPAY_KEY_ID = process.env.REACT_APP_RAZORPAY_KEY_ID;
 
 const paymentHandler = async ({amount, receipt, userInfo}) => {

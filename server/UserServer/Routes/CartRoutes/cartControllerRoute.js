@@ -4,7 +4,8 @@ const {
   cartController,
   clearCart,
   deleteItem, 
-  addOrUpdateImage
+  addOrUpdateImage,
+  updateItemQuantity
 } = require("../../Controllers/CartController/cartController");
 
 router.post("/deleteItem", async (req, res) => {
@@ -31,6 +32,11 @@ router.post("/addItem", async (req, res) => {
 
 router.post("/addOrUpdateImage", async (req, res) => {
   const resp = await addOrUpdateImage(req.body);
+  res.json(resp);
+})
+
+router.post("/updateItemQuantity", async (req, res) => {
+  const resp = await updateItemQuantity(req.body);
   res.json(resp);
 })
 

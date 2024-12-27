@@ -4,9 +4,10 @@ import { Drawer, List, ListItem, ListItemText, Divider, Avatar, Typography, Butt
 import { UserContext } from "../../Contexts/userContext"; // Import the UserContext
 
 const UserProfileDrawer = ({ open, toggleDrawer }) => {
-    const navigate = useNavigate();
+  
+  const navigate = useNavigate();
   const { userInfo } = useContext(UserContext); // Access userInfo from context
-
+  console.log(userInfo);
   // Initialize state for image upload and address
   const [image, setImage] = useState(null);
   const [address, setAddress] = useState('');
@@ -48,7 +49,7 @@ const UserProfileDrawer = ({ open, toggleDrawer }) => {
                 <Typography variant="body2" color="textSecondary">
                   Purchased Items: {userInfo.purchasedItems?.length || 0}
                 </Typography>
-                <Typography variant="body2" color="textSecondary">Support: {userInfo.support || 'N/A'}</Typography>
+                <Typography variant="body2" color="textSecondary">Support: {userInfo.support?.length || 'N/A'}</Typography>
               </div>
 
               <Divider sx={{ margin: '20px 0' }} />
@@ -96,6 +97,7 @@ const UserProfileDrawer = ({ open, toggleDrawer }) => {
       </Drawer>
     </div>
   );
+
 };
 
 export default UserProfileDrawer;
