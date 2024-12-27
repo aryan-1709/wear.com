@@ -4,20 +4,12 @@
     {
       "src": "UserServer/server.js",
       "use": "@vercel/node"
-    },
-    {
-      "src": "OwnerServer/index.js",
-      "use": "@vercel/node"
     }
   ],
   "routes": [
     {
-      "src": "/user/(.*)",
+      "src": "/(.*)",
       "dest": "UserServer/server.js"
-    },
-    {
-      "src": "/owner/(.*)",
-      "dest": "OwnerServer/index.js"
     }
   ]
 }
